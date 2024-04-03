@@ -1,7 +1,7 @@
 const references=require("../../References/customReferences")
 const app=references.express()
 const formdata=references.formdata.none()
-const {createUser} = require("../../Controllers/UserController");
+const {createPlumber} = require("../../Controllers/UserControllers/PlumberController");
 app.use(references.cors())
-app.post("/createUser",formdata,createUser)
+app.post("/createPlumber",formdata,createPlumber)
 module.exports=app;
