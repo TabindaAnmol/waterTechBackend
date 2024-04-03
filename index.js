@@ -2,6 +2,10 @@ console.log('Water Techonology')
 const references = require("./References/customReferences");
 const root = require("./rootPath");
 const express = references.express();
-const userRoutes = require('./Routes/UsersRoutes')
-express.use(userRoutes);
+const propertyOwnerAuthRoutes = require("./Routes/AuthRoutes/PropertyOwnerAuthRoutes");
+const plumberAuthRoutes = require("./Routes/AuthRoutes/PlumberAuthRoutes");
+
+express.use('/propertyOwner/auth',propertyOwnerAuthRoutes);
+express.use('/plumber/auth',plumberAuthRoutes);
+
 express.listen(8000);
