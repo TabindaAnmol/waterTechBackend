@@ -5,8 +5,11 @@ const plumberController = require("../../Controllers/UserControllers/PlumberCont
 app.use(references.cors());
 
 
-app.post("/createPlumber", formdata, async (req, res) => {
-  
+app.post("/signup", formdata, async (req, res) => {
+  console.log('/////////////////////////////')
+  console.log(req.body)
+  console.log('/////////////////////////////')
+
   const alreadyExist = await plumberController.plumberLogin(req.body.email);
   console.log(alreadyExist);
   if (
@@ -14,7 +17,7 @@ app.post("/createPlumber", formdata, async (req, res) => {
     typeof alreadyExist === "object" &&
     Object.keys(alreadyExist).length > 0
   ) {
-    return res.status(429).send({ message: "This User Id Already exist" });
+    return res.status(429).send({ error: "This Email Id Already exist" });
   } else {
     const plumber = await plumberController.createPlumber(req.body);
     if (plumber) {
@@ -26,7 +29,7 @@ app.post("/createPlumber", formdata, async (req, res) => {
 });
 
 
-app.post("/plumberLogin", formdata, async (req, res) => {
+app.post("/login", formdata, async (req, res) => {
   const { email, password } = req.body;
   const plumber = await plumberController.plumberLogin(email);
   if (plumber) {
@@ -61,7 +64,7 @@ app.post("/plumberLogin", formdata, async (req, res) => {
       res.send({ match: false, error: "Invalid Password!" });
     }
   } else {
-    res.send({ match: false, error: "Plumber not found!" });
+    res.send({ match: false, error: "Invalid Credentials!" });
   }
 });
 
