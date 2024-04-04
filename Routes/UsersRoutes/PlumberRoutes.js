@@ -6,7 +6,7 @@ const profileImageUpload=require('../../Middlewares/profileImageUpload')
 app.use(references.cors());
 
 
-app.post("/viewProviderProfile", formdata, async (req, res) => {
+app.post("/viewProfile", formdata, async (req, res) => {
   console.log(req.body);
   const provider = await providerController.viewProviderProfile(req.body._id);
   console.log(provider.orders);
@@ -16,7 +16,7 @@ app.post("/viewProviderProfile", formdata, async (req, res) => {
     res.send({ match: false });
   }
 });
-app.post("/updateProviderProfile", formdata, async (req, res) => {
+app.post("/updateProfile", formdata, async (req, res) => {
   console.log(req.body);
   const isUpdated = await providerController.updateProviderProfile({
     id: req.body._id,
@@ -32,7 +32,7 @@ app.post("/updateProviderProfile", formdata, async (req, res) => {
   }
 });
 app.post(
-  "/updateProviderProfileImage",
+  "/updateProfileImage",
   profileImageUpload("Profiles").single("profileImage"),
   async (req, res) => {
     console.log("body");
