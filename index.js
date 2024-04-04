@@ -4,8 +4,12 @@ const root = require("./rootPath");
 const express = references.express();
 const propertyOwnerAuthRoutes = require("./Routes/AuthRoutes/PropertyOwnerAuthRoutes");
 const plumberAuthRoutes = require("./Routes/AuthRoutes/PlumberAuthRoutes");
+const propertyOwnerRoutes=require('./Routes/UsersRoutes/PropertyOwnerRoutes')
+const plumberRoutes=require('./Routes/UsersRoutes/PlumberRoutes')
 
 express.use('/propertyOwner/auth',propertyOwnerAuthRoutes);
 express.use('/plumber/auth',plumberAuthRoutes);
+express.use('/propertyOwner',propertyOwnerRoutes);
+express.use('/plumber',plumberRoutes);
 
 express.listen(8000);
