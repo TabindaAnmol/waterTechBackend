@@ -4,7 +4,7 @@ const formdata = references.formdata.none();
 app.use(references.cors());
 const propertyOwnerController = require("../../Controllers/UserControllers/PropertyOwnerController");
 
-app.post("/createPropertOwner", formdata, async (req, res) => {
+app.post("/signup", formdata, async (req, res) => {
   console.log("//////////////////// createPropertyOwner /////////////////////");
   console.log(req.body);
   const { name, email, password } = req.body;
@@ -17,7 +17,7 @@ app.post("/createPropertOwner", formdata, async (req, res) => {
     typeof alreadyExist === "object" &&
     Object.keys(alreadyExist).length > 0
   ) {
-    return res.status(429).send({ message: "This User Id Already exist" });
+    return res.status(429).send({ message: "This email already in use" });
   } else {
     const propertyOwner = await propertyOwnerController.createPropertyOwner(
       req.body
@@ -29,7 +29,7 @@ app.post("/createPropertOwner", formdata, async (req, res) => {
     }
   }
 });
-app.post("/propertyOwnerLogin", formdata, async (req, res) => {
+app.post("/login", formdata, async (req, res) => {
   console.log("/////////////// isPropertyOwnerLoggedin ////////////////");
   console.log(req.body);
   const { email, password } = req.body;
@@ -75,10 +75,10 @@ app.post("/propertyOwnerLogin", formdata, async (req, res) => {
         }
       );
     } else {
-      res.send({ match: false, error: "invalid Password" });
+      res.send({ match: false, message: "invalid Password" });
     }
   } else {
-    res.send({ match: false, error: "Property owner not found" });
+    res.send({ match: false, message: "invalid credentails" });
   }
 });
 module.exports = app;
