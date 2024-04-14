@@ -14,7 +14,7 @@ const propertyOwnerSchema=references.mongoose.Schema({
     "totalProperties":{type:Number,default:0},
     "type":String, //Property Owner , Property Manager , Agent , Facility Manager ,Cost Savings Company 
     "portfolio":String,
-    // "profileImage":{type:String,default:null},
+    "profileImage":{type:String,default:null},
     // "fcmToken":{type:String,default:null},
 }, {
     timestamps:{createdAt:'created_at',updatedAt:'updated_at'},
