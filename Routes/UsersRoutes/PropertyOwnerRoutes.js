@@ -18,12 +18,8 @@ app.post("/viewProfile", formdata, async (req, res) => {
 });
 app.post("/updateProfile", formdata, async (req, res) => {
   console.log(req.body);
-  const isUpdated = await propertyOwnerController.updatePropertyOwnerProfile({
-    id: req.body._id,
-    name: req.body.name,
-    societiesId: JSON.parse(req.body.societiesId),
-    address: req.body.address,
-  });
+  const {_id,name,businessName}=req.body;
+  const isUpdated = await propertyOwnerController.updatePropertyOwnerProfile(req.body);
   console.log(isUpdated);
   if (isUpdated) {
     res.send({ updated: true });
@@ -43,9 +39,10 @@ app.post(
     console.log(req.file.filename);
     console.log("field name");
     console.log(req.file.fieldname);
+    const {_id}=req.body;
     const isUpdated = await propertyOwnerController.updatePropertyOwnerProfile({
-      id: req.body._id,
-      profileImage: "/Profiles/PropertyOwner" + req.file.filename,
+      _id: _id,
+      profileImage: "/Profiles/PropertyOwners/" + req.file.filename,
     });
     console.log(isUpdated);
     if (isUpdated) {

@@ -17,7 +17,7 @@ const viewPropertyOwnerProfile = async (propertyOwnerId) => {
 };
 const updatePropertyOwnerProfile = async (updatedUser) => {
   const result = await propertyOwnerModal.updateOne(
-    { _id: updatedUser.id },
+    { _id: updatedUser._id },
     { $set: updatedUser }
   );
   console.log(result);
