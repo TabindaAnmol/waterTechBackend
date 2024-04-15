@@ -1,5 +1,10 @@
 const reference = require("../References/customReferences.js");
 const imageUpload = (folderName)=>{
+  if (
+    !reference.fs.existsSync(`./Public/Assets/Images/${folderName}`)
+  ) {
+    reference.fs.mkdirSync(`./Public/Assets/Images/${folderName}`);
+  }
 return ( reference.multer({
     limits:{fileSize:1024*1024*10},
     storage: reference.multer.diskStorage({

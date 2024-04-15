@@ -11,7 +11,20 @@ const plumberLogin = async (email) => {
   return await result;
 };
 
+const viewPlumberProfile = async (id) => {
+  const result = await plumberModal.findOne({ '_id': id });
+  return await result;
+};
+
+const updatePlumberProfile = async (user) => {
+  const result = await plumberModal.updateOne(user);
+  return await result;
+};
+
+
 module.exports = {
   createPlumber,
   plumberLogin,
+  viewPlumberProfile,
+  updatePlumberProfile,
 };

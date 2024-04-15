@@ -6,14 +6,17 @@ const propertyOwnerAuthRoutes = require("./Routes/AuthRoutes/PropertyOwnerAuthRo
 const plumberAuthRoutes = require("./Routes/AuthRoutes/PlumberAuthRoutes");
 const propertyOwnerRoutes=require('./Routes/UsersRoutes/PropertyOwnerRoutes')
 const plumberRoutes=require('./Routes/UsersRoutes/PlumberRoutes')
+const categoryRoute=require('./Routes/CategoryRoutes/CategoryRoute')
 
 express.use(references.express.static(root + "/Public/Assets/Images"));
 express.use("/Profiles/PropertyOwners", references.express.static("PropertyOwners"));
 express.use("/Profiles/Plumbers", references.express.static("Plumbers"));
+express.use("/Categories", references.express.static("Categories"));
 
 express.use('/propertyOwner/auth',propertyOwnerAuthRoutes);
 express.use('/plumber/auth',plumberAuthRoutes);
 express.use('/propertyOwner',propertyOwnerRoutes);
 express.use('/plumber',plumberRoutes);
+express.use('/categories',categoryRoute);
 
 express.listen(8000);
