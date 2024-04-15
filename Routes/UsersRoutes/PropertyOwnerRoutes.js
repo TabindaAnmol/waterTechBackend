@@ -17,6 +17,7 @@ app.post("/viewProfile", formdata, async (req, res) => {
   }
 });
 app.post("/updateProfile", formdata, async (req, res) => {
+  console.log('/////////////////////');
   console.log(req.body);
   const {_id,name,businessName}=req.body;
   const isUpdated = await propertyOwnerController.updatePropertyOwnerProfile(req.body);
