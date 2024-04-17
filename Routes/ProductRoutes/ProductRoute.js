@@ -125,7 +125,7 @@ app.get("/viewAllProducts", formdata, async (req, res) => {
 app.post("/viewSingleCategoryProducts", formdata, async (req, res) => {
   const { categoryId ,page} = req.body;
   const pageLimit = 2;
-  const singleCategoryProducts = await ProductsController.viewSingleCategoryProducts(categoryId,page,pageLimit);
+  const singleCategoryProducts = await ProductsController.viewSingleCategoryProducts(categoryId,Number(page),pageLimit);
   const totalPages = Math.ceil(singleCategoryProducts.count / pageLimit);
   console.log(totalPages)
 
