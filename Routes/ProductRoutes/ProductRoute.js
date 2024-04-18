@@ -95,44 +95,48 @@ app.post(
 //   }
 // });
 app.get("/viewAllProducts", formdata, async (req, res) => {
-  const page = parseInt (req.query.page);
-  const pageLimit = 2;
-  // pagination method one 
-  // // Calculate the start and end indexes for the requested page
-  // const startIndex = (page - 1) * pageLimit;
-  // const endIndex = page * pageLimit;
-
-  // const allProducts = await ProductsController.viewAllProducts();
-
-  // // Slice the products array based on the indexes
-  // const paginatedProducts = allProducts.slice(startIndex, endIndex);
-  
-  // // Calculate the total number of pages
-  // const totalPages = Math.ceil(allProducts.length / pageLimit);
-
-
-  // pagination method Two 
-
-  const allProducts = await ProductsController.viewAllProducts(page,pageLimit);
+  const page = parseInt(req.query.page);
+  const pageLimit = 4;
+  const allProducts = await ProductsController.viewAllProducts(page, pageLimit);
   const totalPages = Math.ceil(allProducts.count / pageLimit);
   if (allProducts.result.length > 0) {
-    res.send({ allProducts: allProducts.result,totalPages:totalPages });
+    res.send({ allProducts: allProducts.result, totalPages: totalPages });
   } else {
     res.send({ allProducts: [] });
   }
 });
 
 app.post("/viewSingleCategoryProducts", formdata, async (req, res) => {
-  const { categoryId ,page} = req.body;
-  const pageLimit = 2;
-  const singleCategoryProducts = await ProductsController.viewSingleCategoryProducts(categoryId,Number(page),pageLimit);
+  const { categoryId, page } = req.body;
+  const pageLimit = 4;
+  const singleCategoryProducts =
+    await ProductsController.viewSingleCategoryProducts(
+      categoryId,
+      Number(page),
+      pageLimit
+    );
   const totalPages = Math.ceil(singleCategoryProducts.count / pageLimit);
-  console.log(totalPages)
+  console.log(totalPages);
 
   if (singleCategoryProducts.result.length > 0) {
-    res.send({ singleCategoryProducts: singleCategoryProducts.result,totalPages:totalPages });
+    res.send({
+      singleCategoryProducts: singleCategoryProducts.result,
+      totalPages: totalPages,
+    });
   } else {
     res.send({ singleCategoryProducts: [] });
+  }
+});
+
+app.post("/viewSingleProductDetail", formdata, async (req, res) => {
+  const { productId } = req.body;
+  const singleProductDetail = await ProductsController.viewSingleProductDetail(
+    productId
+  );
+  if (singleProductDetail) {
+    res.send({ match: true, singleProductDetail: singleProductDetail });
+  } else {
+    res.send({ match: false });
   }
 });
 
@@ -141,11 +145,6 @@ app.post("/viewSearchedProducts", formdata, async (req, res) => {
   const searchProducts = await ProductsController.viewSearchedProducts(
     searchQuery
   );
-  console.log("////////////////////////////////////////////////");
-  console.log(searchQuery);
-  console.log(searchProducts);
-  console.log("////////////////////////////////////////////////");
-
   if (searchProducts.length > 0) {
     res.send({ searchProducts: searchProducts });
   } else {
