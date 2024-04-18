@@ -8,11 +8,15 @@ const createPropertyOwner = async (user) => {
 };
 const isPropertyOwnerLoggedin = async (user) => {
   console.log(user);
-  const propertyOwner = await propertyOwnerModal.findOne(user);
+  const propertyOwner = await propertyOwnerModal
+    .findOne(user)
+    .populate(["properties"]);
   return propertyOwner;
 };
 const viewPropertyOwnerProfile = async (propertyOwnerId) => {
-  const result = await propertyOwnerModal.findOne({ _id: propertyOwnerId })
+  const result = await propertyOwnerModal
+    .findOne({ _id: propertyOwnerId })
+    .populate(["properties"]);
   return result;
 };
 const updatePropertyOwnerProfile = async (updatedUser) => {

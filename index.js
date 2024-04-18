@@ -9,6 +9,7 @@ const plumberRoutes=require('./Routes/UsersRoutes/PlumberRoutes')
 const categoryRoute=require('./Routes/CategoryRoutes/CategoryRoute')
 const productRoute=require('./Routes/ProductRoutes/ProductRoute')
 const propertyRoutes=require('./Routes/PropertyRoutes/PropertyRoutes')
+const lineRoute=require('./Routes/LineRoutes/LineRoute')
 
 express.use(references.express.static(root + "/Public/Assets/Images"));
 express.use(references.express.static(root + "/Public/Assets/Pdfs"));
@@ -25,5 +26,6 @@ express.use('/plumber',plumberRoutes);
 express.use('/categories',categoryRoute);
 express.use('/products',productRoute);
 express.use('/properties',propertyRoutes);
+express.use('/lines',lineRoute);
 
 express.listen(8000);
