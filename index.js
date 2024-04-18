@@ -10,6 +10,7 @@ const categoryRoute=require('./Routes/CategoryRoutes/CategoryRoute')
 const productRoute=require('./Routes/ProductRoutes/ProductRoute')
 const propertyRoutes=require('./Routes/PropertyRoutes/PropertyRoutes')
 const lineRoute=require('./Routes/LineRoutes/LineRoute')
+const cartRoute=require('./Routes/CartRoutes/CartRoute')
 
 express.use(references.express.static(root + "/Public/Assets/Images"));
 express.use(references.express.static(root + "/Public/Assets/Pdfs"));
@@ -27,5 +28,6 @@ express.use('/categories',categoryRoute);
 express.use('/products',productRoute);
 express.use('/properties',propertyRoutes);
 express.use('/lines',lineRoute);
+express.use('/cart',cartRoute);
 
 express.listen(8000);

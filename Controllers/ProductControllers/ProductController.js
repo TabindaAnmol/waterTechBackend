@@ -28,6 +28,10 @@ const viewAllProducts = async (page,pageLimit) => {
     count:count
   };
 };
+const viewSingleProductDetail = async (productId) => {
+  const result = await productModal.findOne({ status: "available" ,_id:productId}).populate(['categoryId']);
+ return result
+};
 const viewSingleCategoryProducts = async (categoryId,page,pageLimit) => {
   const startIndex = (page - 1) * pageLimit;
   const result = await productModal.find({status: "available",categoryId: categoryId}).limit(pageLimit).skip(startIndex);
@@ -49,5 +53,6 @@ module.exports = {
   deleteProduct: deleteProduct,
   viewAllProducts: viewAllProducts,
   viewSingleCategoryProducts: viewSingleCategoryProducts,
+  viewSingleProductDetail:viewSingleProductDetail,
   viewSearchedProducts: viewSearchedProducts,
 };
