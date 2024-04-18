@@ -19,6 +19,24 @@ const propertyOwnerSchema=references.mongoose.Schema({
 }, {
     timestamps:{createdAt:'created_at',updatedAt:'updated_at'},
 })
+propertyOwnerSchema.virtual('properties', {
+  ref: 'properties',
+  localField: '_id',
+  foreignField: 'propertyOwnerId',
+});
+
+propertyOwnerSchema.set("toObject", {
+  virtuals: true,
+  transform: function (doc, ret) {
+    delete ret.id;
+  },
+});
+propertyOwnerSchema.set("toJSON", {
+  virtuals: true,
+  transform: function (doc, ret) {
+    delete ret.id;
+  },
+});
 // Hash the password before saving
 propertyOwnerSchema.pre('save', async function (next) {
     const user = this;

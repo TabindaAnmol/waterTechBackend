@@ -2,12 +2,28 @@ require("../../Database/dbConfig");
 const propertyModal = require("../../Models/PropertyModals/PropertyModal");
 
 const addProperty = async (property) => {
-  console.log(user);
+  console.log(property);
   const result = await propertyModal.create(property);
   return result;
 };
+const viewSingleOwnerProperties = async (propertyOwnerId) => {
+  const result = await propertyModal
+    .find({ propertyOwnerId: propertyOwnerId })
+    .populate(["lines", "propertyOwnerId"]);
+  console.log(result);
+  // console.log(result[0].lines?.[0].type);
+  return result;
+};
+const viewSinglePropertyDetail = async (propertyId) => {
+  const result = await propertyModal
+    .findOne({ _id: propertyId })
+    .populate(["lines", "propertyOwnerId"]);
+  console.log(result);
+  return result;
+};
 
- 
 module.exports = {
-    addProperty
+  addProperty,
+  viewSingleOwnerProperties,
+  viewSinglePropertyDetail,
 };
