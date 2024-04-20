@@ -4,16 +4,6 @@ const formdata = references.formdata.none();
 const lineController = require("../../Controllers/LineControllers/LineController");
 app.use(references.cors());
 
-app.post("/singlePropertyLines", formdata, async (req, res) => {
-  console.log(req.body);
-  const { propertyOwnerId } = req.body;
-  const lines = await lineController.viewSinglePropertyLines(propertyOwnerId);
-  if (properties.length > 0) {
-    res.send({ match: true, lines: lines });
-  } else {
-    res.send({ match: false, lines: [] });
-  }
-});
 app.post("/addNewLine", formdata, async (req, res) => {
   console.log(req.body);
   const { propertyId } = { ...req.body };
@@ -24,6 +14,16 @@ app.post("/addNewLine", formdata, async (req, res) => {
     res.send({ added: true, newLine: newLine });
   } else {
     res.send({ added: false });
+  }
+});
+app.post("/singlePropertyLines", formdata, async (req, res) => {
+  console.log(req.body);
+  const { propertyId } = req.body;
+  const lines = await lineController.viewSinglePropertyLines(propertyId);
+  if (lines.length > 0) {
+    res.send({ match: true, lines: lines });
+  } else {
+    res.send({ match: false, lines: [] });
   }
 });
 
