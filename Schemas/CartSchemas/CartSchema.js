@@ -9,10 +9,11 @@ const cartSchema = references.mongoose.Schema(
       type: references.mongoose.Schema.Types.ObjectId,
       ref: "plumbers",
     },
-    // orderId: {
-    //   type: references.mongoose.Schema.Types.ObjectId,
-    //   ref: "Categories",
-    // },
+    orderId: {
+      type: references.mongoose.Schema.Types.ObjectId,
+      ref: "Orders",
+      default:null,
+    },
     totalPrice: { type: Number},
     quantity: { type: Number, default: 1 },
     isPurchased: { type: Boolean, default: false },

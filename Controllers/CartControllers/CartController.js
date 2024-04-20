@@ -5,12 +5,12 @@ const addToCart = async (newItem) => {
   const result = await cartModal.create(newItem);
   return result;
 };
-const deleteFormCart = async (delId) => {
+const deleteCartItem = async (delId) => {
   const result = await cartModal.deleteOne(delId);
   return result;
 };
-const updateCartItem= async (cart) => {
-  const result=await cartModal.updateOne({_id:cart._id},{$set:cart})
+const updateCartItem = async (cart) => {
+  const result = await cartModal.updateOne({ _id: cart._id }, { $set: cart });
   return result;
 };
 const viewAllCartItems = async () => {
@@ -18,14 +18,30 @@ const viewAllCartItems = async () => {
   return result;
 };
 const alreadyInCart = async (productId) => {
-    const result = await cartModal.findOne({productId:productId,isPurchased:false});
-    return result;
-  };
+  const result = await cartModal.findOne({
+    productId: productId,
+    isPurchased: false,
+  });
+  return result;
+};
+const viewSinglePlumberCartItems = async (plumberId) => {
+  const result = await cartModal.find({
+    plumberId: plumberId,
+    isPurchased: false,
+  }).populate(['plumberId','productId']);
+  return result;
+};
+const updateCartItemQuantity = async (cart) => {
+  const result = await cartModal.updateOne({ _id: cart._id }, { $set: cart });
+  return result;
+};
 
 module.exports = {
   addToCart: addToCart,
-  deleteFormCart: deleteFormCart,
+  deleteCartItem: deleteCartItem,
   viewAllCartItems: viewAllCartItems,
-  alreadyInCart:alreadyInCart,
+  alreadyInCart: alreadyInCart,
   updateCartItem: updateCartItem,
+  viewSinglePlumberCartItems:viewSinglePlumberCartItems,
+  updateCartItemQuantity:updateCartItemQuantity,
 };
