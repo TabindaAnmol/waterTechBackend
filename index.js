@@ -9,7 +9,8 @@ const plumberRoutes=require('./Routes/UsersRoutes/PlumberRoutes')
 const categoryRoute=require('./Routes/CategoryRoutes/CategoryRoute')
 const productRoute=require('./Routes/ProductRoutes/ProductRoute')
 const propertyRoutes=require('./Routes/PropertyRoutes/PropertyRoutes')
-const lineRoute=require('./Routes/LineRoutes/LineRoute')
+const lineRoutes=require('./Routes/LineRoutes/LineRoutes')
+const jobRoutes=require('./Routes/JobRoutes/JobRoutes')
 const cartRoute=require('./Routes/CartRoutes/CartRoute')
 
 express.use(references.express.static(root + "/Public/Assets/Images"));
@@ -24,10 +25,13 @@ express.use('/propertyOwner/auth',propertyOwnerAuthRoutes);
 express.use('/plumber/auth',plumberAuthRoutes);
 express.use('/propertyOwner',propertyOwnerRoutes);
 express.use('/plumber',plumberRoutes);
+
 express.use('/categories',categoryRoute);
 express.use('/products',productRoute);
-express.use('/properties',propertyRoutes);
-express.use('/lines',lineRoute);
 express.use('/cart',cartRoute);
+
+express.use('/properties',propertyRoutes);
+express.use('/lines',lineRoutes);
+express.use('/jobs',jobRoutes);
 
 express.listen(8000);
