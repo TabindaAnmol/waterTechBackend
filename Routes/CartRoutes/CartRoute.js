@@ -1,3 +1,4 @@
+const CartController = require("../../Controllers/CartControllers/CartController");
 const cartController = require("../../Controllers/CartControllers/CartController");
 const references = require("../../References/customReferences");
 const app = references.express();
@@ -38,5 +39,39 @@ app.post("/addToCart", formdata, async (req, res) => {
     }
   }
 });
+app.post("/viewSinglePlumberCartItems", formdata, async (req, res) => {
+    const { plumberId } = req.body;
+    const singlePlumberCartItems = await CartController.viewSinglePlumberCartItems(
+      plumberId
+    );
+    if (singlePlumberCartItems.length>0) {
+      res.send({ singlePlumberCartItems: singlePlumberCartItems });
+    } else {
+      res.send({ singlePlumberCartItems: [] });
+    }
+  });
+  app.post("/deleteCartItem", formdata, async (req, res) => {
+    const deletedItem = await CartController.deleteCartItem(req.body);
+    console.log(deletedItem)
+    if (deletedItem.acknowledged && deletedItem.deletedCount>0) {
+      res.send({ deleted: true });
+    } else {
+      res.send({ deleted: false });
+    }
+  });  
+  app.post("/updateCartItemQuantity", formdata, async (req, res) => {
+    const { _id,quantity,product } = req.body;
+    const updateItem = await CartController.updateCartItemQuantity({
+      _id:_id,
+      quantity:quantity,
+      totalPrice:JSON.parse(product).productId.price*quantity
+    });
+    console.log(updateItem)
+    if (updateItem.modifiedCount>0) {
+      res.send({ updated: true });
+    } else {
+      res.send({ updated: false });
+    }
+  });  
 
 module.exports = app;
