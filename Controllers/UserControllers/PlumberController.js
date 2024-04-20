@@ -20,6 +20,10 @@ const updatePlumberProfile = async (user) => {
   const result = await plumberModal.updateOne(user);
   return await result;
 };
+const viewAllPlumbers = async () => {
+  const result = await plumberModal.find();
+  return await result;
+};
 
 
 module.exports = {
@@ -27,4 +31,5 @@ module.exports = {
   plumberLogin,
   viewPlumberProfile,
   updatePlumberProfile,
+  viewAllPlumbers,
 };
