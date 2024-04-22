@@ -24,7 +24,7 @@ const viewSinglePropertyOwnerJobsWithStatus = async (
   return result;
 };
 const viewJobDetail = async (jobId) => {
-  const result = await orderModel.findOne({ _id: jobId }).populate([
+  const result = await jobModal.findOne({ _id: jobId }).populate([
     {
       path: "lineId",
       populate: {
