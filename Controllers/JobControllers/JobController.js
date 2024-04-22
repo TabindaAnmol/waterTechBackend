@@ -23,8 +23,23 @@ const viewSinglePropertyOwnerJobsWithStatus = async (
   ]);
   return result;
 };
+const viewJobDetail = async (jobId) => {
+  const result = await orderModel.findOne({ _id: jobId }).populate([
+    {
+      path: "lineId",
+      populate: {
+        path: "propertyId",
+        populate: { path: "propertyOwnerId" },
+      },
+    },
+    { path: "plumberId" },
+  ]);
+  console.log(result);
+  return result;
+};
 
 module.exports = {
   createJob,
   viewSinglePropertyOwnerJobsWithStatus,
+  viewJobDetail,
 };
