@@ -26,5 +26,15 @@ app.post("/singlePropertyOwnerJobsWithStatus", formdata, async (req, res) => {
     res.send({ match: false, jobs: [] });
   }
 });
+app.post("/jobDetail", formdata, async (req, res) => {
+  console.log(req.body);
+  const { jobId } = req.body;
+  const jobDetail = await jobController.viewJobDetail(jobId);
+  if (jobDetail) {
+    res.send({ match: true, jobDetail: jobDetail });
+  } else {
+    res.send({ match: false});
+  }
+});
 
 module.exports = app;
