@@ -1,4 +1,3 @@
-const CartController = require("../../Controllers/CartControllers/CartController");
 const cartController = require("../../Controllers/CartControllers/CartController");
 const references = require("../../References/customReferences");
 const app = references.express();
@@ -41,7 +40,7 @@ app.post("/addToCart", formdata, async (req, res) => {
 });
 app.post("/viewSinglePlumberCartItems", formdata, async (req, res) => {
     const { plumberId } = req.body;
-    const singlePlumberCartItems = await CartController.viewSinglePlumberCartItems(
+    const singlePlumberCartItems = await cartController.viewSinglePlumberCartItems(
       plumberId
     );
     if (singlePlumberCartItems.length>0) {
@@ -51,7 +50,7 @@ app.post("/viewSinglePlumberCartItems", formdata, async (req, res) => {
     }
   });
   app.post("/deleteCartItem", formdata, async (req, res) => {
-    const deletedItem = await CartController.deleteCartItem(req.body);
+    const deletedItem = await cartController.deleteCartItem(req.body);
     console.log(deletedItem)
     if (deletedItem.acknowledged && deletedItem.deletedCount>0) {
       res.send({ deleted: true });
@@ -61,7 +60,7 @@ app.post("/viewSinglePlumberCartItems", formdata, async (req, res) => {
   });  
   app.post("/updateCartItemQuantity", formdata, async (req, res) => {
     const { _id,quantity,product } = req.body;
-    const updateItem = await CartController.updateCartItemQuantity({
+    const updateItem = await cartController.updateCartItem({
       _id:_id,
       quantity:quantity,
       totalPrice:JSON.parse(product).productId.price*quantity

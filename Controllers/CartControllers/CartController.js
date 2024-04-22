@@ -13,6 +13,13 @@ const updateCartItem = async (cart) => {
   const result = await cartModal.updateOne({ _id: cart._id }, { $set: cart });
   return result;
 };
+const updateOrderId = async (cart) => {
+  const result = await cartModal.updateMany(
+    { plumberId: cart.plumberId, isPurchased: false, orderId: null },
+    { $set: cart }
+  );
+  return result;
+};
 const viewAllCartItems = async () => {
   const result = await cartModal.find();
   return result;
@@ -21,18 +28,18 @@ const alreadyInCart = async (productId) => {
   const result = await cartModal.findOne({
     productId: productId,
     isPurchased: false,
+    orderId: null
   });
   return result;
 };
 const viewSinglePlumberCartItems = async (plumberId) => {
-  const result = await cartModal.find({
-    plumberId: plumberId,
-    isPurchased: false,
-  }).populate(['plumberId','productId']);
-  return result;
-};
-const updateCartItemQuantity = async (cart) => {
-  const result = await cartModal.updateOne({ _id: cart._id }, { $set: cart });
+  const result = await cartModal
+    .find({
+      plumberId: plumberId,
+      isPurchased: false,
+      orderId: null,
+    })
+    .populate(["plumberId", "productId"]);
   return result;
 };
 
@@ -42,6 +49,6 @@ module.exports = {
   viewAllCartItems: viewAllCartItems,
   alreadyInCart: alreadyInCart,
   updateCartItem: updateCartItem,
-  viewSinglePlumberCartItems:viewSinglePlumberCartItems,
-  updateCartItemQuantity:updateCartItemQuantity,
+  viewSinglePlumberCartItems: viewSinglePlumberCartItems,
+  updateOrderId:updateOrderId
 };
