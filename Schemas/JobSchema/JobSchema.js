@@ -6,9 +6,9 @@ const jobSchema = references.mongoose.Schema(
     time: String,
     jobInstructions: String,
     jobImages: { type: Array, default: [] },
-    propertyId: {
+    lineId: {
       type: references.mongoose.Schema.Types.ObjectId,
-      ref: "properties",
+      ref: "lines",
     },
     plumberId: {
       type: references.mongoose.Schema.Types.ObjectId,

@@ -6,8 +6,8 @@ app.use(references.cors());
 
 app.post("/postJob", formdata, async (req, res) => {
   console.log(req.body);
-  const { propertyId,plumberId,date,time,jobInstructions } = { ...req.body };
-  console.log(propertyId)
+  const { lineId,plumberId,date,time,jobInstructions } = { ...req.body };
+  console.log(lineId,plumberId,date,time)
   const newJob = await jobController.createJob(req.body);
   console.log(newJob);
   if (newJob) {
@@ -18,10 +18,10 @@ app.post("/postJob", formdata, async (req, res) => {
 });
 app.post("/singlePropertyOwnerJobsWithStatus", formdata, async (req, res) => {
   console.log(req.body);
-  const { propertyOwnerId } = req.body;
-  const jobs = await jobController.viewSinglePropertyOwnerJobsWithStatus(propertyOwnerId);
+  const { propertyOwnerId ,jobStatus} = req.body;
+  const jobs = await jobController.viewSinglePropertyOwnerJobsWithStatus(propertyOwnerId,jobStatus);
   if (jobs.length > 0) {
-    res.send({ match: true, jobs: lines });
+    res.send({ match: true, jobs: jobs });
   } else {
     res.send({ match: false, jobs: [] });
   }
