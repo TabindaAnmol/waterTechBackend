@@ -7,7 +7,7 @@ const addNewLine = async (line) => {
   return result;
 };
 const viewSinglePropertyLines = async (propertyId) => {
-  const result = await lineModal.find({ propertyId: propertyId });
+  const result = await lineModal.find({ propertyId: propertyId }).populate([{path:'propertyId'}]);
   return result;
 };
 
