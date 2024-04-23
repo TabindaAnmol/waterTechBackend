@@ -72,10 +72,10 @@ const propertyOwnerJobStats = async (propertyOwnerId) => {
   console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
   console.log(groupedStats);
   const result = {
-    acceptedOrders: groupedStats.requested || 0,
-    acceptedOrders: groupedStats.accepted || 0,
-    completedOrders: groupedStats.completed || 0,
-    cancelledOrders: groupedStats.cancelled || 0,
+    requestedJobs: groupedStats.requested || 0,
+    acceptedJobs: groupedStats.accepted || 0,
+    completedJobs: groupedStats.completed || 0,
+    cancelledJobs: groupedStats.cancelled || 0,
   };
   console.log(result);
 
@@ -96,10 +96,10 @@ const plumberJobStats = async (plumberId) => {
   console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
   console.log(groupedStats);
   const result = {
-    acceptedOrders: groupedStats.requested || 0,
-    acceptedOrders: groupedStats.accepted || 0,
-    completedOrders: groupedStats.completed || 0,
-    cancelledOrders: groupedStats.cancelled || 0,
+    requestedJobs: groupedStats.requested || 0,
+    acceptedJobs: groupedStats.accepted || 0,
+    completedJobs: groupedStats.completed || 0,
+    cancelledJobs: groupedStats.cancelled || 0,
   };
   console.log(result);
 
