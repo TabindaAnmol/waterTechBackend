@@ -17,6 +17,7 @@ app.post("/postJob", formdata, async (req, res) => {
       title: "New Job Assigned",
       message: `A new job has been  assigned to you on ${newJob.date} at ${newJob.time}.`,
       plumberId: newJob.plumberId,
+      
     });
     res.send({ added: true, newJob: newJob });
   } else {
