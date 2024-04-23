@@ -13,6 +13,7 @@ const lineRoutes=require('./Routes/LineRoutes/LineRoutes')
 const jobRoutes=require('./Routes/JobRoutes/JobRoutes')
 const cartRoute=require('./Routes/CartRoutes/CartRoute')
 const orderRoute=require('./Routes/OrderRoutes/OrderRoute')
+const paymentRoute=require('./Routes/PaymentRoutes/PaymentRoute')
 
 express.use(references.express.static(root + "/Public/Assets/Images"));
 express.use(references.express.static(root + "/Public/Assets/Pdfs"));
@@ -35,5 +36,8 @@ express.use('/orders',orderRoute);
 express.use('/properties',propertyRoutes);
 express.use('/lines',lineRoutes);
 express.use('/jobs',jobRoutes);
+
+express.use('/payment',paymentRoute);
+
 
 express.listen(8000);

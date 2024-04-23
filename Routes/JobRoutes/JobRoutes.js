@@ -30,6 +30,10 @@ app.post("/jobDetail", formdata, async (req, res) => {
   console.log(req.body);
   const { jobId } = req.body;
   const jobDetail = await jobController.viewJobDetail(jobId);
+  console.log('..................................')
+  console.log(jobDetail)
+  console.log('..................................')
+
   if (jobDetail) {
     res.send({ match: true, jobDetail: jobDetail });
   } else {

@@ -14,4 +14,22 @@ const orderSchema = references.mongoose.Schema(
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
   }
 );
+orderSchema.virtual('cartItems', {
+  ref: 'carts',
+  localField: '_id',
+  foreignField: 'orderId',
+});
+
+orderSchema.set("toObject", {
+  virtuals: true,
+  transform: function (doc, ret) {
+    delete ret.id;
+  },
+});
+orderSchema.set("toJSON", {
+  virtuals: true,
+  transform: function (doc, ret) {
+    delete ret.id;
+  },
+});
 module.exports = orderSchema;
