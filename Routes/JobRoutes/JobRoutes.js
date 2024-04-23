@@ -2,6 +2,7 @@ const references = require("../../References/customReferences");
 const app = references.express();
 const formdata = references.formdata.none();
 const jobController = require("../../Controllers/JobControllers/JobController");
+const notificationsController = require("../../Controllers/NotificationControllers/NotificationsController");
 app.use(references.cors());
 
 app.post("/postJob", formdata, async (req, res) => {
@@ -11,6 +12,12 @@ app.post("/postJob", formdata, async (req, res) => {
   const newJob = await jobController.createJob(req.body);
   console.log(newJob);
   if (newJob) {
+    // Send a notification to the assigned plumber that there is a new job for him
+    const nofication = await notificationsController.createPlumberNotification({
+      title: "New Job Assigned",
+      message: `A new job has been  assigned to you on ${newJob.date} at ${newJob.time}.`,
+      plumberId: newJob.plumberId,
+    });
     res.send({ added: true, newJob: newJob });
   } else {
     res.send({ added: false });
