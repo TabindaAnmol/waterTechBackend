@@ -43,6 +43,19 @@ app.post("/singlePropertyOwnerJobsWithStatus", formdata, async (req, res) => {
     res.send({ match: false, jobs: [] });
   }
 });
+app.post("/singlePlumberJobsWithStatus", formdata, async (req, res) => {
+  console.log(req.body);
+  const { plumberId, jobStatus } = req.body;
+  const jobs = await jobController.viewSinglePlumberJobsWithStatus(
+    plumberId,
+    jobStatus
+  );
+  if (jobs.length > 0) {
+    res.send({ match: true, jobs: jobs });
+  } else {
+    res.send({ match: false, jobs: [] });
+  }
+});
 app.post("/updateJobStatus", formdata, async (req, res) => {
   console.log(req.body);
   const { jobId, jobStatus } = req.body;

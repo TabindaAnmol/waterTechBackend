@@ -36,6 +36,19 @@ const viewSinglePropertyOwnerJobsWithStatus = async (
   ]);
   return result;
 };
+const viewSinglePlumberJobsWithStatus = async (plumberId, jobStatus) => {
+  const result = await jobModal
+    .find({ jobStatus: jobStatus, plumberId: plumberId })
+    .populate([{ path: "plumberId" },
+    {
+      path: "lineId",
+      populate: {
+        path: "propertyId",
+        populate: { path: "propertyOwnerId" },
+      },
+    }]);
+  return result;
+};
 const updateJobStatus = async (jobId, jobStatus) => {
   const result = await jobModal.updateOne(
     { _id: jobId },
@@ -50,15 +63,20 @@ const updateJobStatus = async (jobId, jobStatus) => {
 };
 const propertyOwnerJobStats = async (propertyOwnerId) => {
   const jobs = await jobModal
-    .find({ jobStatus: { $in: ["requested","accepted","completed","cancelled"] } })
+    .find({
+      jobStatus: { $in: ["requested", "accepted", "completed", "cancelled"] },
+    })
     .populate([
       {
         path: "lineId",
         populate: {
           path: "propertyId",
-          populate: { path: "propertyOwnerId", match: { _id: propertyOwnerId } },
+          populate: {
+            path: "propertyOwnerId",
+            match: { _id: propertyOwnerId },
+          },
         },
-      }
+      },
     ]);
 
   console.log(jobs);
@@ -82,8 +100,10 @@ const propertyOwnerJobStats = async (propertyOwnerId) => {
   return result;
 };
 const plumberJobStats = async (plumberId) => {
-  const jobs = await jobModal
-    .find({ jobStatus: { $in: ["requested","accepted","completed","cancelled"] } , plumberId : plumberId})
+  const jobs = await jobModal.find({
+    jobStatus: { $in: ["requested", "accepted", "completed", "cancelled"] },
+    plumberId: plumberId,
+  });
 
   console.log(jobs);
   const groupedStats = jobs.reduce((acc, job) => {
@@ -106,11 +126,11 @@ const plumberJobStats = async (plumberId) => {
   return result;
 };
 
-
 module.exports = {
   createJob,
   viewJobDetail,
   viewSinglePropertyOwnerJobsWithStatus,
+  viewSinglePlumberJobsWithStatus,
   updateJobStatus,
   propertyOwnerJobStats,
   plumberJobStats,
