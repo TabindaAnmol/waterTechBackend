@@ -15,29 +15,44 @@ app.post("/createNewOrder", formdata, async (req, res) => {
   });
   if (newOrder) {
     const cartItems = await cartController.updateOrderId({
-        plumberId:plumberId,
-        orderId:newOrder._id,
-        isPurchased: true,
+      plumberId: plumberId,
+      orderId: newOrder._id,
+      isPurchased: true,
     });
-    console.log(cartItems)
-    if(cartItems.modifiedCount>0){
-        res.send({ added: true });
+    console.log(cartItems);
+    if (cartItems.modifiedCount > 0) {
+      res.send({ added: true });
     }
   } else {
     res.send({ added: false });
   }
 });
-// app.post("/viewSinglePlumberCartItems", formdata, async (req, res) => {
-//     const { plumberId } = req.body;
-//     const singlePlumberCartItems = await orderController.viewSinglePlumberCartItems(
-//       plumberId
-//     );
-//     if (singlePlumberCartItems.length>0) {
-//       res.send({ singlePlumberCartItems: singlePlumberCartItems });
-//     } else {
-//       res.send({ singlePlumberCartItems: [] });
-//     }
-//   });
+app.post("/viewPlumberOrders", formdata, async (req, res) => {
+  const { plumberId, status } = req.body;
+  console.log(req.body);
+  const plumberOrders = await orderController.viewPlumberOrders(
+    plumberId,
+    status
+  );
+  if (plumberOrders.length > 0) {
+    res.send({ plumberOrders: plumberOrders });
+  } else {
+    res.send({ plumberOrders: [] });
+  }
+});
+
+app.post("/viewSingleOrderDetail", formdata, async (req, res) => {
+  const { orderId } = req.body;
+  console.log(req.body);
+  const orderDetail = await orderController.viewSingleOrderDetail(
+    orderId,
+  );
+  if (orderDetail) {
+    res.send({ orderDetail: orderDetail });
+  } else {
+    res.send({ orderDetail: {} });
+  }
+});
 
 //   app.post("/updateCartItemQuantity", formdata, async (req, res) => {
 //     const { _id,quantity,product } = req.body;

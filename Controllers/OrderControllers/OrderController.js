@@ -14,14 +14,41 @@ const viewAllCartItems = async () => {
   const result = await orderModal.find();
   return result;
 };
+const viewSingleOrderDetail = async (orderId) => {
+  const result = await orderModal
+    .findOne({
+      _id: orderId,
+    })
+    .populate([
+      {
+        path: "cartItems",
+        populate: {
+          path: "productId",
+          populate: { path: "categoryId" },
+        },
+      },
+      { path: "plumberId" },
+    ]);
 
-const viewSinglePlumberCartItems = async (plumberId) => {
+  return result;
+};
+const viewPlumberOrders = async (plumberId, status) => {
   const result = await orderModal
     .find({
       plumberId: plumberId,
-      isPurchased: false,
+      status: status,
     })
-    .populate(["plumberId", "productId"]);
+    .populate([
+      {
+        path: "cartItems",
+        populate: {
+          path: "productId",
+          populate: { path: "categoryId" },
+        },
+      },
+      { path: "plumberId" },
+    ]);
+
   return result;
 };
 
@@ -29,5 +56,6 @@ module.exports = {
   createNewOrder: createNewOrder,
   viewAllCartItems: viewAllCartItems,
   updateCartItem: updateCartItem,
-  viewSinglePlumberCartItems: viewSinglePlumberCartItems,
+  viewPlumberOrders: viewPlumberOrders,
+  viewSingleOrderDetail:viewSingleOrderDetail,
 };
