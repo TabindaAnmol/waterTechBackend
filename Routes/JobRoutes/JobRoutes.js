@@ -19,7 +19,7 @@ app.post("/postJob", formdata, async (req, res) => {
         message: `A new job has been assigned to you on ${newJob.date} at ${newJob.time}.`,
         plumberId: newJob.plumberId,
       });
-  
+
     res.send({ added: true, newJob: newJob });
   } else {
     res.send({ added: false });
@@ -71,32 +71,32 @@ app.post("/updateJobStatus", formdata, async (req, res) => {
   const updated = await jobController.updateJobStatus(jobId, jobStatus);
   const jobDetail = await jobController.viewJobDetail(jobId);
   if (updated == 1) {
-     // Send a notification
-     if(jobStatus=='accepted'){
+    // Send a notification
+    if (jobStatus == "accepted") {
       const jobAcceptedNofication =
-      await notificationsController.createPropertyOwnerNotification({
-        title:'Job Accepted',
-        message:`Your Job with ID ${jobId} has been accepted by the Plumber`,
-        propertyOwnerId: jobDetail.lineId.propertyId.propertyOwnerId,
-      });
-     }
-     if(jobStatus=='cancelled'){
+        await notificationsController.createPropertyOwnerNotification({
+          title: "Job Accepted",
+          message: `Your Job with ID ${jobId} has been accepted by the Plumber`,
+          propertyOwnerId: jobDetail.lineId.propertyId.propertyOwnerId,
+        });
+    }
+    if (jobStatus == "cancelled") {
       const jobCancelledNofication =
-      await notificationsController.createPlumberNotification({
-        title:'Job Cancelled',
-        message:'Your Job has been cancelled by the customer',
-        plumberId: jobDetail.plumberId,
-      });
-     }
-     if(jobStatus=='rejected'){
+        await notificationsController.createPlumberNotification({
+          title: "Job Cancelled",
+          message: "Your Job has been cancelled by the customer",
+          plumberId: jobDetail.plumberId,
+        });
+    }
+    if (jobStatus == "rejected") {
       const jobRejectedNotification =
-      await notificationsController.createPropertyOwnerNotification({
-        title:'Job Rejection',
-        message:`The Plumber ${jobDetail.plumberId.name} has rejected your Job request for ${jobDetail.lineId.propertyId.address}.`,
-        propertyOwnerId: jobDetail.lineId.propertyId.propertyOwnerId,
-      });
-     }
-  
+        await notificationsController.createPropertyOwnerNotification({
+          title: "Job Rejection",
+          message: `The Plumber ${jobDetail.plumberId.name} has rejected your Job request for ${jobDetail.lineId.propertyId.address}.`,
+          propertyOwnerId: jobDetail.lineId.propertyId.propertyOwnerId,
+        });
+    }
+
     res.send({ updated: true });
   } else {
     res.send({ updated: false });
