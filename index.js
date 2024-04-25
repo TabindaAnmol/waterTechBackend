@@ -39,7 +39,7 @@ express.use('/lines',lineRoutes);
 express.use('/jobs',jobRoutes);
 
 express.use('/payment',paymentRoute);
-express.use('/nofications',notificationRoutes);
+express.use('/notifications',notificationRoutes);
 
 
 express.listen(8000);
