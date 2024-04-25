@@ -72,8 +72,16 @@ app.post("/updateJobStatus", formdata, async (req, res) => {
   const jobDetail = await jobController.viewJobDetail(jobId);
   if (updated == 1) {
      // Send a notification
+     if(jobStatus=='accepted'){
+      const jobAcceptedNofication =
+      await notificationsController.createPropertyOwnerNotification({
+        title:'Job Accepted',
+        message:`Your Job with ID ${jobId} has been accepted by the Plumber`,
+        propertyOwnerId: jobDetail.lineId.propertyId.propertyOwnerId,
+      });
+     }
      if(jobStatus=='cancelled'){
-      const plumberNofication =
+      const jobCancelledNofication =
       await notificationsController.createPlumberNotification({
         title:'Job Cancelled',
         message:'Your Job has been cancelled by the customer',
@@ -81,10 +89,10 @@ app.post("/updateJobStatus", formdata, async (req, res) => {
       });
      }
      if(jobStatus=='rejected'){
-      const propertyOwnerNotification =
+      const jobRejectedNotification =
       await notificationsController.createPropertyOwnerNotification({
         title:'Job Rejection',
-        message:`The Plumber has rejected your Job request for ${jobDetail.lineId.propertyId.address}.`,
+        message:`The Plumber ${jobDetail.plumberId.name} has rejected your Job request for ${jobDetail.lineId.propertyId.address}.`,
         propertyOwnerId: jobDetail.lineId.propertyId.propertyOwnerId,
       });
      }
