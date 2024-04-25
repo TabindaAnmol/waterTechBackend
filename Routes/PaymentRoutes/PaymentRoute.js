@@ -3,22 +3,6 @@ const cartController = require("../../Controllers/CartControllers/CartController
 const app = references.express();
 const formdata = references.formdata.none();
 
-//////////////////////////Payment Using Stripe////////////////////////////////
-// app.post("/paymentWithStripe", formdata, async (req, res) => {
-//   console.log(req.body.amount);
-//   const paymentIntent = await references.stripe.paymentIntents.create({
-//     amount: Number(req.body.amount) * 100,
-//     currency: "USD",
-//     automatic_payment_methods: {
-//       enabled: true,
-//     },
-//   });
-//   res.send({
-//     paymentIntent: paymentIntent.client_secret,
-//     publishableKey: references.publishableKey,
-//   });
-// });
-
 app.post("/paymentWithStripe", formdata, async (req, res) => {
   const { plumberId } = req.body;
   let cartItemForStripe = [];
@@ -36,15 +20,20 @@ app.post("/paymentWithStripe", formdata, async (req, res) => {
       quantity: item.quantity,
     });
   });
-  console.log(cartItemForStripe);
   const session = await references.stripe.checkout.sessions.create({
     line_items: cartItemForStripe,
     mode: "payment",
-    success_url: `http://localhost:3000/success`,
-    cancel_url: `http://localhost:3000/cart`,
+    success_url: `http://192.168.1.15:3000/success?sc_checkout=success&sc_sid={CHECKOUT_SESSION_ID}`,
+    cancel_url: `http://192.168.1.15:3000/error?sc_checkout=cancel`,
   });
-//   console.log(session)
-  res.send({ url: session.url });
+  res.send({ sessionId: session.id });
 });
 
 module.exports = app;
+
+
+
+
+ //////////////Aghr kam simple web view ky sath krna h tb yeh code use krna h simply url send krna h
+  // res.send({ url: session.url });
+  //////////////Aghr kam check out web view ky sath krna h tb yeh code use krna h simply sessionId send krna h
