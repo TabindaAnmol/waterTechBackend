@@ -31,7 +31,6 @@ app.post("/createPlumberNotification", formdata, async (req, res) => {
 app.post("/fetchPropertyOwnerNotification", formdata, async (req, res) => {
   console.log(req.body);
   const { propertyOwnerId } = req.body;
-  console.log(title, body);
   const notifications = await notificationsController.propertyOwnerNotifications(propertyOwnerId);
   console.log(notifications);
   if (notifications.length>0) {
