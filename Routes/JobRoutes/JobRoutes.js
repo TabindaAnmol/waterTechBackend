@@ -19,12 +19,7 @@ app.post("/postJob", formdata, async (req, res) => {
         message: `A new job has been assigned to you on ${newJob.date} at ${newJob.time}.`,
         plumberId: newJob.plumberId,
       });
-    const propertyOwnerNotification =
-      await notificationsController.createPropertyOwnerNotification({
-        title: "Job Posted Successfully",
-        message: `Your job has been posted successfully and it's now available for plumbers to take up. You will be notified when someone accept it.`,
-        propertyOwnerId: newJob.lineId.propertyId.propertyOwnerId,
-      });
+  
     res.send({ added: true, newJob: newJob });
   } else {
     res.send({ added: false });
