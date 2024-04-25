@@ -53,6 +53,8 @@ app.post(
 app.get("/viewAllPlumbers", formdata, async (req, res) => {
   console.log("//////////////////////////////////");
   const plumbers = await plumberController.viewAllPlumbers();
+  console.log('/////////plumbers/////////')
+  console.log(plumbers)
   if (plumbers.length>0) {
     res.send({ plumbers: plumbers });
   } else {
