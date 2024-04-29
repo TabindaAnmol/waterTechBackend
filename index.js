@@ -42,5 +42,11 @@ express.use('/notifications',notificationRoutes);
 
 express.use('/payment',paymentRoute);
 
-
+// placeholder if run in browser
+// express.get('/', function (req, res) {
+//     // res.write("<div style='text-align:center;margin-top: 100px;'><img src='https://bestanimations.com/media/loading-gears/2074796765loading-gears-animation-3.gif' width='150'/></div>\n");
+//     res.write("<h1 style='display: flex;align-items: center;justify-content: center;height: 100%;'>__Application is Up and Running__</h1>\n");
+//     // res.write("<h2 style='text-align:center;'>Developed by <a href='https://www.linkedin.com/in/m-azhar-m/' target='_blank'>Azhar-M</a></h2>");
+//     res.end()
+// });
 express.listen(8000);
