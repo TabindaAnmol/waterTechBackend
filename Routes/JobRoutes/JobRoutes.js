@@ -119,10 +119,7 @@ app.post("/plumberJobStats", formdata, async (req, res) => {
   res.send(stats);
 });
 
-app.post(
-  "/uploadJobNotes",
-  imageUpload("JobImages").array("jobImages"),
-  async (req, res) => {
+app.post("/uploadJobNotes",imageUpload("JobImages").array("jobImages"),async (req, res) => {
     const { jobId } = req.body;
     var jobImages = [];
     req.files.map((item, index) => {
