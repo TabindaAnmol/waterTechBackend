@@ -3,6 +3,7 @@ const app = references.express();
 const formdata = references.formdata.none();
 const jobController = require("../../Controllers/JobControllers/JobController");
 const notificationsController = require("../../Controllers/NotificationControllers/NotificationsController");
+const imageUpload = require("../../Middlewares/imageUpload");
 app.use(references.cors());
 
 app.post("/postJob", formdata, async (req, res) => {
@@ -12,13 +13,14 @@ app.post("/postJob", formdata, async (req, res) => {
   const newJob = await jobController.createJob(req.body);
   console.log(newJob);
   if (newJob) {
-    // Send a notification to the assigned plumber that there is a new job for him
-    const nofication = await notificationsController.createPlumberNotification({
-      title: "New Job Assigned",
-      message: `A new job has been  assigned to you on ${newJob.date} at ${newJob.time}.`,
-      plumberId: newJob.plumberId,
-      
-    });
+    // Send a notification
+    const plumberNofication =
+      await notificationsController.createPlumberNotification({
+        title: "New Job Assigned",
+        message: `A new job has been assigned to you on ${newJob.date} at ${newJob.time}.`,
+        plumberId: newJob.plumberId,
+      });
+
     res.send({ added: true, newJob: newJob });
   } else {
     res.send({ added: false });
@@ -68,33 +70,73 @@ app.post("/updateJobStatus", formdata, async (req, res) => {
   console.log(req.body);
   const { jobId, jobStatus } = req.body;
   const updated = await jobController.updateJobStatus(jobId, jobStatus);
+  const jobDetail = await jobController.viewJobDetail(jobId);
   if (updated == 1) {
+    // Send a notification
+    if (jobStatus == "accepted") {
+      const jobAcceptedNofication =
+        await notificationsController.createPropertyOwnerNotification({
+          title: "Job Accepted",
+          message: `Your Job with ID ${jobId} has been accepted by the Plumber`,
+          propertyOwnerId: jobDetail.lineId.propertyId.propertyOwnerId,
+        });
+    }
+    if (jobStatus == "cancelled") {
+      const jobCancelledNofication =
+        await notificationsController.createPlumberNotification({
+          title: "Job Cancelled",
+          message: "Your Job has been cancelled by the customer",
+          plumberId: jobDetail.plumberId,
+        });
+    }
+    if (jobStatus == "rejected") {
+      const jobRejectedNotification =
+        await notificationsController.createPropertyOwnerNotification({
+          title: "Job Rejection",
+          message: `The Plumber ${jobDetail.plumberId.name} has rejected your Job request for ${jobDetail.lineId.propertyId.address}.`,
+          propertyOwnerId: jobDetail.lineId.propertyId.propertyOwnerId,
+        });
+    }
+
     res.send({ updated: true });
   } else {
     res.send({ updated: false });
   }
 });
 app.post("/propertyOwnerJobStats", formdata, async (req, res) => {
-
-  console.log('/////////////////////propertyOwnerJobStats');
+  console.log("/////////////////////propertyOwnerJobStats");
   console.log(req.body);
   const { propertyOwnerId } = req.body;
-  console.log(propertyOwnerId)
-  const stats = await jobController.propertyOwnerJobStats(
-   propertyOwnerId
-  );
+  console.log(propertyOwnerId);
+  const stats = await jobController.propertyOwnerJobStats(propertyOwnerId);
   res.send(stats);
 });
 app.post("/plumberJobStats", formdata, async (req, res) => {
-
-  console.log('/////////////////////plumberJobStats');
+  console.log("/////////////////////propertyOwnerJobStats");
   console.log(req.body);
   const { plumberId } = req.body;
-  console.log(plumberId)
-  const stats = await jobController.propertyOwnerJobStats(
-    plumberId
-  );
+  const stats = await jobController.plumberJobStats(plumberId);
   res.send(stats);
 });
+
+app.post("/uploadJobNotes",imageUpload("JobImages").array("jobImages"),async (req, res) => {
+    const { jobId } = req.body;
+    var jobImages = [];
+    req.files.map((item, index) => {
+      jobImages.push("/JobImages/" + item.filename);
+    });
+    const updatedJobResult = await jobController.updateJobNotes({
+      _id:jobId,
+      jobImages:jobImages,
+      jobStatus: "requesedToComplete",
+    });
+    console.log(updatedJobResult);
+    if (updatedJobResult == 1) {
+      res.send({ updated: true });
+    } else {
+      res.send({ updated: false });
+    }
+  }
+);
 
 module.exports = app;

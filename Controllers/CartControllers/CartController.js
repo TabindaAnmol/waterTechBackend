@@ -42,6 +42,16 @@ const viewSinglePlumberCartItems = async (plumberId) => {
     .populate(["plumberId", "productId"]);
   return result;
 };
+const viewSinglePlumberCartItemsCount = async (plumberId) => {
+  const result = await cartModal
+    .find({
+      plumberId: plumberId,
+      isPurchased: false,
+      orderId: null,
+    })
+    .populate(["plumberId", "productId"]).count();
+  return result;
+};
 
 module.exports = {
   addToCart: addToCart,
@@ -50,5 +60,6 @@ module.exports = {
   alreadyInCart: alreadyInCart,
   updateCartItem: updateCartItem,
   viewSinglePlumberCartItems: viewSinglePlumberCartItems,
-  updateOrderId:updateOrderId
+  updateOrderId:updateOrderId,
+  viewSinglePlumberCartItemsCount:viewSinglePlumberCartItemsCount
 };

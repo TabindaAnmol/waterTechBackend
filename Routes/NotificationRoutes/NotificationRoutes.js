@@ -28,6 +28,28 @@ app.post("/createPlumberNotification", formdata, async (req, res) => {
     res.send({ added: false });
   }
 });
+app.post("/fetchPropertyOwnerNotification", formdata, async (req, res) => {
+  console.log(req.body);
+  const { propertyOwnerId } = req.body;
+  const notifications = await notificationsController.propertyOwnerNotifications(propertyOwnerId);
+  console.log(notifications);
+  if (notifications.length>0) {
+    res.send({ match: true, notifications: notifications });
+  } else {
+    res.send({ match: false,notifications: [] });
+  }
+});
+app.post("/fetchPlumberNotification", formdata, async (req, res) => {
+  console.log(req.body);
+  const { plumberId } = req.body;
+  const notifications = await notificationsController.plumberNotifications(plumberId);
+  console.log(notifications);
+  if (notifications.length>0) {
+    res.send({ match: true, notifications: notifications });
+  } else {
+    res.send({ match: false,notifications: [] });
+  }
+});
 
 
 module.exports = app;

@@ -49,6 +49,17 @@ app.post("/viewSinglePlumberCartItems", formdata, async (req, res) => {
       res.send({ singlePlumberCartItems: [] });
     }
   });
+  app.post("/viewSinglePlumberCartItemsCount", formdata, async (req, res) => {
+    const { plumberId } = req.body;
+    const singlePlumberCartItemsCount = await cartController.viewSinglePlumberCartItemsCount(
+      plumberId
+    );
+    if (singlePlumberCartItemsCount>0) {
+      res.send({ count: singlePlumberCartItemsCount });
+    } else {
+      res.send({ count: 0 });
+    }
+  });
   app.post("/deleteCartItem", formdata, async (req, res) => {
     const deletedItem = await cartController.deleteCartItem(req.body);
     console.log(deletedItem)

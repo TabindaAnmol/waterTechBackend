@@ -39,14 +39,16 @@ const viewSinglePropertyOwnerJobsWithStatus = async (
 const viewSinglePlumberJobsWithStatus = async (plumberId, jobStatus) => {
   const result = await jobModal
     .find({ jobStatus: jobStatus, plumberId: plumberId })
-    .populate([{ path: "plumberId" },
-    {
-      path: "lineId",
-      populate: {
-        path: "propertyId",
-        populate: { path: "propertyOwnerId" },
+    .populate([
+      { path: "plumberId" },
+      {
+        path: "lineId",
+        populate: {
+          path: "propertyId",
+          populate: { path: "propertyOwnerId" },
+        },
       },
-    }]);
+    ]);
   return result;
 };
 const updateJobStatus = async (jobId, jobStatus) => {
@@ -55,6 +57,14 @@ const updateJobStatus = async (jobId, jobStatus) => {
     { $set: { jobStatus: jobStatus } }
   );
   console.log(result.modifiedCount);
+  if (result.modifiedCount == 1) {
+    return result.modifiedCount;
+  } else {
+    return 0;
+  }
+};
+const updateJobNotes = async (job) => {
+  const result = await jobModal.updateOne({ _id: job._id }, { $set: job });
   if (result.modifiedCount == 1) {
     return result.modifiedCount;
   } else {
@@ -134,4 +144,5 @@ module.exports = {
   updateJobStatus,
   propertyOwnerJobStats,
   plumberJobStats,
+  updateJobNotes,
 };
