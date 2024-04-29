@@ -7,7 +7,7 @@ const lineSchema = references.mongoose.Schema(
     originalFee: String,
     newFee: String,
     savings: String,
-    solutions: [{ type: String, default: '' }], // array of objects containing solution 
+    solutions: [{ type: String, default: '' }], // array of Strings containing solution 
     propertyId: {
       type: references.mongoose.Schema.Types.ObjectId,
       ref: "properties",
