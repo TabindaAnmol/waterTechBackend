@@ -38,8 +38,9 @@ express.use('/properties',propertyRoutes);
 express.use('/lines',lineRoutes);
 express.use('/jobs',jobRoutes);
 
-express.use('/payment',paymentRoute);
 express.use('/notifications',notificationRoutes);
+
+express.use('/payment',paymentRoute);
 
 
 express.listen(8000);

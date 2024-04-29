@@ -3,6 +3,7 @@ const app = references.express();
 const formdata = references.formdata.none();
 const jobController = require("../../Controllers/JobControllers/JobController");
 const notificationsController = require("../../Controllers/NotificationControllers/NotificationsController");
+const imageUpload = require("../../Middlewares/imageUpload");
 app.use(references.cors());
 
 app.post("/postJob", formdata, async (req, res) => {
@@ -111,12 +112,34 @@ app.post("/propertyOwnerJobStats", formdata, async (req, res) => {
   res.send(stats);
 });
 app.post("/plumberJobStats", formdata, async (req, res) => {
-  console.log("/////////////////////plumberJobStats");
+  console.log("/////////////////////propertyOwnerJobStats");
   console.log(req.body);
   const { plumberId } = req.body;
-  console.log(plumberId);
-  const stats = await jobController.propertyOwnerJobStats(plumberId);
+  const stats = await jobController.plumberJobStats(plumberId);
   res.send(stats);
 });
+
+app.post(
+  "/uploadJobNotes",
+  imageUpload("JobImages").array("jobImages"),
+  async (req, res) => {
+    const { jobId } = req.body;
+    var jobImages = [];
+    req.files.map((item, index) => {
+      jobImages.push("/JobImages/" + item.filename);
+    });
+    const updatedJobResult = await jobController.updateJobNotes({
+      _id:jobId,
+      jobImages:jobImages,
+      jobStatus: "requesedToComplete",
+    });
+    console.log(updatedJobResult);
+    if (updatedJobResult == 1) {
+      res.send({ updated: true });
+    } else {
+      res.send({ updated: false });
+    }
+  }
+);
 
 module.exports = app;
