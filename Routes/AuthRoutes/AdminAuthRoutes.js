@@ -1,7 +1,7 @@
 const references = require("../../References/customReferences");
 const app = references.express();
 const formdata = references.formdata.none();
-const plumberController = require("../../Controllers/UserControllers/PlumberController");
+const adminController = require("../../Controllers/UserControllers/AdminController");
 app.use(references.cors());
 
 
@@ -10,7 +10,7 @@ app.post("/signup", formdata, async (req, res) => {
   console.log(req.body)
   console.log('/////////////////////////////')
 
-  const alreadyExist = await plumberController.plumberLogin(req.body.email);
+  const alreadyExist = await adminController.login(req.body.email);
   console.log(alreadyExist);
   if (
     alreadyExist &&
@@ -19,9 +19,9 @@ app.post("/signup", formdata, async (req, res) => {
   ) {
     return res.status(429).send({ error: "This Email Id Already exist" });
   } else {
-    const plumber = await plumberController.createPlumber(req.body);
-    if (plumber) {
-      res.send({ plumber: plumber, save: true });
+    const admin = await adminController.createadmin(req.body);
+    if (admin) {
+      res.send({ admin: admin, save: true });
     } else {
       res.send({ save: false });
     }
@@ -32,34 +32,33 @@ app.post("/signup", formdata, async (req, res) => {
 app.post("/login", formdata, async (req, res) => {
   const { email, password } = req.body;
   console.log(req.body)
-  const plumber = await plumberController.plumberLogin({
-    email: email,
-  });
-  if (plumber) {
+  const admin = await adminController.login(email);
+  console.log(admin)
+  if (admin) {
     var isPasswordMatch;
     if (password.startsWith("$2a$")) {
-      isPasswordMatch = password === plumber.password;
+      isPasswordMatch = password === admin.password;
     } else {
       isPasswordMatch = await references.bcrypt.compare(
         password,
-        plumber.password
+        admin.password
       );
     }
     if (isPasswordMatch) {
       references.jwt.sign(
-        { plumberId: plumber._id },
+        { adminId: admin._id },
         references.jwtPrivateKey,
         { expiresIn: "10d" },
         function (err, token) {
           if (token) {
             res.send({
               match: true,
-              loggedInPlumber: plumber,
+              loggedInAdmin: admin,
               token: token,
             });
           } else {
             console.log(err);
-            res.send({ match: true, loggedInPlumber: plumber, token: "" });
+            res.send({ match: true, loggedInAdmin: admin, token: "" });
           }
         }
       );

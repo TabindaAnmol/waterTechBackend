@@ -4,6 +4,7 @@ const root = require("./rootPath");
 const express = references.express();
 const propertyOwnerAuthRoutes = require("./Routes/AuthRoutes/PropertyOwnerAuthRoutes");
 const plumberAuthRoutes = require("./Routes/AuthRoutes/PlumberAuthRoutes");
+const adminAuthRoutes = require("./Routes/AuthRoutes/AdminAuthRoutes");
 const propertyOwnerRoutes=require('./Routes/UsersRoutes/PropertyOwnerRoutes')
 const plumberRoutes=require('./Routes/UsersRoutes/PlumberRoutes')
 const categoryRoute=require('./Routes/CategoryRoutes/CategoryRoute')
@@ -26,6 +27,7 @@ express.use("/PropertiesCertificates", references.express.static("PropertiesCert
 
 express.use('/propertyOwner/auth',propertyOwnerAuthRoutes);
 express.use('/plumber/auth',plumberAuthRoutes);
+express.use('/admin/auth',adminAuthRoutes);
 express.use('/propertyOwner',propertyOwnerRoutes);
 express.use('/plumber',plumberRoutes);
 
@@ -42,6 +44,7 @@ express.use('/notifications',notificationRoutes);
 
 express.use('/payment',paymentRoute);
 
+express.listen(8000);
 // placeholder if run in browser
 // express.get('/', function (req, res) {
 //     // res.write("<div style='text-align:center;margin-top: 100px;'><img src='https://bestanimations.com/media/loading-gears/2074796765loading-gears-animation-3.gif' width='150'/></div>\n");
@@ -49,4 +52,3 @@ express.use('/payment',paymentRoute);
 //     // res.write("<h2 style='text-align:center;'>Developed by <a href='https://www.linkedin.com/in/m-azhar-m/' target='_blank'>Azhar-M</a></h2>");
 //     res.end()
 // });
-express.listen(8000);

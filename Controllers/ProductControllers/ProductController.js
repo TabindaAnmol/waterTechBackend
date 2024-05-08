@@ -19,32 +19,43 @@ const deleteProduct = async (delId) => {
   );
   return result;
 };
-const viewAllProducts = async (page,pageLimit) => {
+const viewAllProducts = async (page, pageLimit) => {
   const startIndex = (page - 1) * pageLimit;
-  const result = await productModal.find({ status: "available" }).limit(pageLimit).skip(startIndex);
+  const result = await productModal
+    .find({ status: "available" })
+    .populate(["categoryId"])
+    .limit(pageLimit)
+    .skip(startIndex);
   const count = await productModal.count();
   return {
-    result:result,
-    count:count
+    result: result,
+    count: count,
   };
 };
 const viewSingleProductDetail = async (productId) => {
-  const result = await productModal.findOne({ status: "available" ,_id:productId}).populate(['categoryId']);
- return result
+  const result = await productModal
+    .findOne({ status: "available", _id: productId })
+    .populate(["categoryId"]);
+  return result;
 };
-const viewSingleCategoryProducts = async (categoryId,page,pageLimit) => {
+const viewSingleCategoryProducts = async (categoryId, page, pageLimit) => {
   const startIndex = (page - 1) * pageLimit;
-  const result = await productModal.find({status: "available",categoryId: categoryId}).limit(pageLimit).skip(startIndex);
-  const count = await productModal.find({status: "available",categoryId: categoryId}).count();
+  const result = await productModal
+    .find({ status: "available", categoryId: categoryId })
+    .limit(pageLimit)
+    .skip(startIndex);
+  const count = await productModal
+    .find({ status: "available", categoryId: categoryId })
+    .count();
   return {
-    result:result,
-    count:count
+    result: result,
+    count: count,
   };
 };
 const viewSearchedProducts = async (searchItem) => {
   return await productModal.find({
-    $or: [{ title: { $regex: searchItem, $options: "i" } }]
-  })
+    $or: [{ title: { $regex: searchItem, $options: "i" } }],
+  });
 };
 
 module.exports = {
@@ -53,6 +64,6 @@ module.exports = {
   deleteProduct: deleteProduct,
   viewAllProducts: viewAllProducts,
   viewSingleCategoryProducts: viewSingleCategoryProducts,
-  viewSingleProductDetail:viewSingleProductDetail,
+  viewSingleProductDetail: viewSingleProductDetail,
   viewSearchedProducts: viewSearchedProducts,
 };

@@ -1,7 +1,7 @@
 const references = require("../../References/customReferences.js");
 const propertySchema = references.mongoose.Schema(
   {
-    status: { type: Number, default: 0 },
+    status: { type: Number, default: 0 },//0 waiting for Approval/requested ,1 Approved,2 not Approved
     address: String,
     country: String,
     city: String,
