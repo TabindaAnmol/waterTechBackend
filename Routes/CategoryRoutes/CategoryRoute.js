@@ -61,8 +61,8 @@ app.get("/viewAllCategories", formdata, async (req, res) => {
     res.send({ allCategories: [] });
   }
 });
-// app.post("/deleteCategory", formdata, async (req, res) => {
-//   var counter=0
+app.post("/deleteCategory", formdata, async (req, res) => {
+  // var counter=0
 //   console.log(req.body)
 //   const {_id}=req.body
 //   console.log(_id)
@@ -87,6 +87,15 @@ app.get("/viewAllCategories", formdata, async (req, res) => {
 //     res.send({ update: false ,message: 'Something went wrong'})
 //   }
 //   }
-// });
+
+
+const delCategory = await categoriesController.deleteCategories(req.body);
+console.log(delCategory);
+if (delCategory.deletedCount == 1) {
+  res.send({ update: true });
+}else{
+  res.send({ update: false ,message: 'Something went wrong'})
+}
+});
 
 module.exports = app;

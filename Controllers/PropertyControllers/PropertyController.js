@@ -11,7 +11,13 @@ const viewSingleOwnerProperties = async (propertyOwnerId) => {
     .find({ propertyOwnerId: propertyOwnerId })
     .populate(["lines", "propertyOwnerId"]);
   console.log(result);
-  // console.log(result[0].lines?.[0].type);
+  return result;
+};
+const viewSingleOwnerPropertiesWithStatus = async (propertyOwnerId, status) => {
+  const result = await propertyModal
+    .find({ propertyOwnerId: propertyOwnerId, status: status })
+    .populate(["lines", "propertyOwnerId"]);
+  console.log(result);
   return result;
 };
 const viewSinglePropertyDetail = async (propertyId) => {
@@ -21,9 +27,16 @@ const viewSinglePropertyDetail = async (propertyId) => {
   console.log(result);
   return result;
 };
+const viewSingleOwnerPropertiesCount = async (propertyOwnerId) => {
+  const result = await propertyModal.find({ propertyOwnerId: propertyOwnerId })
+    .count();
+  return result;
+};
 
 module.exports = {
   addProperty,
   viewSingleOwnerProperties,
   viewSinglePropertyDetail,
+  viewSingleOwnerPropertiesWithStatus,
+  viewSingleOwnerPropertiesCount,
 };

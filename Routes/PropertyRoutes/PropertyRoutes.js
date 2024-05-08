@@ -51,6 +51,17 @@ app.post("/singleOwnerProperties", formdata, async (req, res) => {
     res.send({ match: false,properties:[] });
   }
 });
+app.post("/singleOwnerPropertiesWithStatus", formdata, async (req, res) => {
+  console.log(req.body);
+  const {propertyOwnerId,status}=req.body
+  const properties = await propertyController.viewSingleOwnerPropertiesWithStatus(propertyOwnerId,status);
+  console.log(properties)
+  if (properties.length>0) {
+    res.send({ match: true ,properties: properties});
+  } else {
+    res.send({ match: false,properties:[] });
+  }
+});
 app.post("/singlePropertyDetail", formdata, async (req, res) => {
   console.log(req.body);
   const {_id}=req.body

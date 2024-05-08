@@ -29,9 +29,14 @@ const updatePropertyOwnerProfile = async (updatedUser) => {
   console.log(result.modifiedCount);
   return result.modifiedCount;
 };
+const viewAllPropertyOwner = async () => {
+  const result = await propertyOwnerModal.find();
+  return await result;
+};
 module.exports = {
   createPropertyOwner,
   isPropertyOwnerLoggedin,
   viewPropertyOwnerProfile,
   updatePropertyOwnerProfile,
+  viewAllPropertyOwner,
 };

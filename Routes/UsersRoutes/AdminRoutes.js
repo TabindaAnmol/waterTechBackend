@@ -1,7 +1,7 @@
 const references = require("../../References/customReferences");
 const app = references.express();
 const formdata = references.formdata.none();
-const plumberController = require("../../Controllers/UserControllers/PlumberController");
+const AdminController = require("../../Controllers/UserControllers/AdminController");
 const profileImageUpload = require("../../Middlewares/profileImageUpload");
 app.use(references.cors());
 
@@ -9,6 +9,7 @@ app.post("/viewProfile", formdata, async (req, res) => {
   console.log("//////////////////////////////////");
   console.log(req.body);
   console.log("//////////////////////////////////");
+
   const plumber = await plumberController.viewPlumberProfile(req.body._id);
   if (plumber) {
     res.send({ plumber: plumber, match: true });
@@ -17,7 +18,6 @@ app.post("/viewProfile", formdata, async (req, res) => {
   }
 });
 app.post("/updateProfile", formdata, async (req, res) => {
-  console.log(req.body)
   const isUpdated = await plumberController.updatePlumberProfile(req.body);
   console.log(isUpdated);
   if (isUpdated.modifiedCount >= 1) {
