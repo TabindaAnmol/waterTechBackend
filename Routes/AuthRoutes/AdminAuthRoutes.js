@@ -33,7 +33,10 @@ app.post("/login", formdata, async (req, res) => {
   const { email, password } = req.body;
   console.log(req.body)
   const admin = await adminController.login(email);
+  console.log('///////////////////////////////')
   console.log(admin)
+  console.log('///////////////////////////////')
+
   if (admin) {
     var isPasswordMatch;
     if (password.startsWith("$2a$")) {
