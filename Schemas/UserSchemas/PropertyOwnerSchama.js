@@ -1,6 +1,6 @@
 const references=require("../../References/customReferences")
 const propertyOwnerSchema=references.mongoose.Schema({
-    "status":{type:Number,default:1},
+    "status":{type:Number,default:0},//0 Hold ,1 Approved ,2 Decline
     "businessName":String,
     "name":String,
     "email":String,

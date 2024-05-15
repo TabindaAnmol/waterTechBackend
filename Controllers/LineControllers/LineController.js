@@ -45,6 +45,21 @@ const viewPropertyOwnerLinesCount = async (propertyOwnerId) => {
     .count();
   return result;
 };
+const viewLinesWithStatus = async (status) => {
+  const result = await lineModal.find({ status: status }).populate([
+    {
+      path: "propertyId",
+      populate: {
+        path: "propertyOwnerId",
+      },
+    },
+  ]);
+  return result;
+};
+const assignSolutionToLine = async (line) => {
+  const result = await lineModal.updateOne({ _id: line._id }, { $set: line });
+  return result;
+};
 
 module.exports = {
   addNewLine,
@@ -52,4 +67,6 @@ module.exports = {
   viewPropertyOwnerLines,
   lineDetail,
   viewPropertyOwnerLinesCount,
+  viewLinesWithStatus,
+  assignSolutionToLine,
 };

@@ -46,5 +46,27 @@ app.post("/lineDetail", formdata, async (req, res) => {
     res.send({ match: false, line: {} });
   }
 });
+app.post("/viewLinesWithStatus", formdata, async (req, res) => {
+  console.log(req.body);
+  const { status } = req.body;
+  const line = await lineController.viewLinesWithStatus(status);
+  console.log(line);
+  if (line.length > 0) {
+    res.send({ match: true, line: line });
+  } else {
+    res.send({ match: false, line: [] });
+  }
+});
+app.post("/assignSolutionToLine", formdata, async (req, res) => {
+  req.body.solutions = JSON.parse(req.body.solutions);
+  console.log(req.body);
+  const line = await lineController.assignSolutionToLine(req.body);
+  console.log(line);
+  if (line.modifiedCount > 0) {
+    res.send({ updated: true });
+  } else {
+    res.send({ updated: false });
+  }
+});
 
 module.exports = app;

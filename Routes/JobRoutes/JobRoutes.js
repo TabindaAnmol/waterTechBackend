@@ -66,6 +66,18 @@ app.post("/singlePlumberJobsWithStatus", formdata, async (req, res) => {
     res.send({ match: false, jobs: [] });
   }
 });
+app.post("/allJobsWithStatus", formdata, async (req, res) => {
+  console.log(req.body);
+  const {jobStatus } = req.body;
+  const jobs = await jobController.viewAllJobsWithStatus(
+    jobStatus
+  );
+  if (jobs.length > 0) {
+    res.send({ match: true, jobs: jobs });
+  } else {
+    res.send({ match: false, jobs: [] });
+  }
+});
 app.post("/updateJobStatus", formdata, async (req, res) => {
   console.log(req.body);
   const { jobId, jobStatus } = req.body;

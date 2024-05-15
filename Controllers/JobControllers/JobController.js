@@ -36,6 +36,19 @@ const viewSinglePropertyOwnerJobsWithStatus = async (
   ]);
   return result;
 };
+const viewAllJobsWithStatus = async (jobStatus) => {
+  const result = await jobModal.find({ jobStatus: jobStatus }).populate([
+    {
+      path: "lineId",
+      populate: {
+        path: "propertyId",
+        populate: { path: "propertyOwnerId" },
+      },
+    },
+    { path: "plumberId" },
+  ]);
+  return result;
+};
 const viewSinglePlumberJobsWithStatus = async (plumberId, jobStatus) => {
   const result = await jobModal
     .find({ jobStatus: jobStatus, plumberId: plumberId })
@@ -145,4 +158,5 @@ module.exports = {
   propertyOwnerJobStats,
   plumberJobStats,
   updateJobNotes,
+  viewAllJobsWithStatus,
 };
