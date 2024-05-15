@@ -58,9 +58,11 @@ app.post(
     }
   }
 );
-app.get("/viewAllPropertyOwner", formdata, async (req, res) => {
+app.post("/viewAllPropertyOwnerWithStatus", formdata, async (req, res) => {
+  const { status } = req.body;
   console.log("//////////////////////////////////");
-  const propertyOwner = await propertyOwnerController.viewAllPropertyOwner();
+  const propertyOwner =
+    await propertyOwnerController.viewAllPropertyOwnerWithStatus(status);
   console.log("/////////propertyOwner/////////");
   console.log(propertyOwner);
   if (propertyOwner.length > 0) {
