@@ -1,5 +1,5 @@
 require("../../Database/dbConfig");
-const employeeModal = require("../../Models/EmployeeModals/EmployeeModal");
+const employeeModal = require("../../Models/UserModals/EmployeeModal");
 
 const createEmployee = async (user) => {
   console.log(user);
