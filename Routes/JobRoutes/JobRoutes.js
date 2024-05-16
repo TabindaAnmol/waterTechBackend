@@ -26,6 +26,22 @@ app.post("/postJob", formdata, async (req, res) => {
     res.send({ added: false });
   }
 });
+app.post("/repostJob", formdata, async (req, res) => {
+  console.log(req.body);
+  req.body.jobStatus = "requested";
+  const reposted = await jobController.repostJob(req.body);
+  if (reposted == 1) {
+    const plumberNofication =
+      await notificationsController.createPlumberNotification({
+        title: "New Job Assigned",
+        message: `A new job has been assigned to you on ${req.body.date} at ${req.body.time}.`,
+        plumberId: req.body.plumberId,
+      });
+    res.send({ updated: true });
+  } else {
+    res.send({ updated: false });
+  }
+});
 app.post("/jobDetail", formdata, async (req, res) => {
   console.log(req.body);
   const { jobId } = req.body;
@@ -68,10 +84,8 @@ app.post("/singlePlumberJobsWithStatus", formdata, async (req, res) => {
 });
 app.post("/allJobsWithStatus", formdata, async (req, res) => {
   console.log(req.body);
-  const {jobStatus } = req.body;
-  const jobs = await jobController.viewAllJobsWithStatus(
-    jobStatus
-  );
+  const { jobStatus } = req.body;
+  const jobs = await jobController.viewAllJobsWithStatus(jobStatus);
   if (jobs.length > 0) {
     res.send({ match: true, jobs: jobs });
   } else {
@@ -130,16 +144,18 @@ app.post("/plumberJobStats", formdata, async (req, res) => {
   const stats = await jobController.plumberJobStats(plumberId);
   res.send(stats);
 });
-
-app.post("/uploadJobNotes",imageUpload("JobImages").array("jobImages"),async (req, res) => {
+app.post(
+  "/uploadJobNotes",
+  imageUpload("JobImages").array("jobImages"),
+  async (req, res) => {
     const { jobId } = req.body;
     var jobImages = [];
     req.files.map((item, index) => {
       jobImages.push("/JobImages/" + item.filename);
     });
     const updatedJobResult = await jobController.updateJobNotes({
-      _id:jobId,
-      jobImages:jobImages,
+      _id: jobId,
+      jobImages: jobImages,
       jobStatus: "requesedToComplete",
     });
     console.log(updatedJobResult);

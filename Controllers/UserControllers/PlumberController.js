@@ -18,7 +18,7 @@ const viewPlumberProfile = async (id) => {
 
 const updatePlumberProfile = async (user) => {
   const result = await plumberModal.updateOne(
-    { _id: user._id },
+    { _id: user.id },
     { $set: user }
   );
   return await result;

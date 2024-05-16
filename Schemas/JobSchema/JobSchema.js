@@ -1,7 +1,7 @@
 const references = require("../../References/customReferences.js");
 const jobSchema = references.mongoose.Schema(
   {
-    jobStatus: { type: String, default: "requested" }, //(requested,accepted,completed,cancelled,rejected)
+    jobStatus: { type: String, default: "requested" }, //(requested,accepted,completed,cancelled,rejected,requesedToComplete)
     date: String,
     time: String,
     jobInstructions: String,
