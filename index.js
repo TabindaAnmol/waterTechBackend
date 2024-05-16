@@ -16,6 +16,7 @@ const cartRoute=require('./Routes/CartRoutes/CartRoute')
 const orderRoute=require('./Routes/OrderRoutes/OrderRoute')
 const paymentRoute=require('./Routes/PaymentRoutes/PaymentRoute')
 const notificationRoutes=require('./Routes/NotificationRoutes/NotificationRoutes')
+const employeeRoutes=require('./Routes/AuthRoutes/EmployeeRoutes')
 
 express.use(references.express.static(root + "/Public/Assets/Images"));
 express.use(references.express.static(root + "/Public/Assets/Pdfs"));
@@ -24,12 +25,14 @@ express.use("/Profiles/Plumbers", references.express.static("Plumbers"));
 express.use("/Categories", references.express.static("Categories"));
 express.use("/Products", references.express.static("Products"));
 express.use("/PropertiesCertificates", references.express.static("PropertiesCertificates"));
+express.use("/EmployeesCVs", references.express.static("EmployeesCVs"));
 
 express.use('/propertyOwner/auth',propertyOwnerAuthRoutes);
 express.use('/plumber/auth',plumberAuthRoutes);
 express.use('/admin/auth',adminAuthRoutes);
 express.use('/propertyOwner',propertyOwnerRoutes);
 express.use('/plumber',plumberRoutes);
+express.use('/employee',employeeRoutes);
 
 express.use('/categories',categoryRoute);
 express.use('/products',productRoute);
