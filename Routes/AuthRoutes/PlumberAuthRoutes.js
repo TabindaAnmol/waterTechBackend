@@ -28,13 +28,13 @@ app.post("/signup", formdata, async (req, res) => {
   }
 });
 
-
 app.post("/login", formdata, async (req, res) => {
   const { email, password } = req.body;
   console.log(req.body)
-  const plumber = await plumberController.plumberLogin({
-    email: email,
-  });
+  const plumber = await plumberController.plumberLogin(
+    email
+  );
+  console.log(plumber)
   if (plumber) {
     var isPasswordMatch;
     if (password.startsWith("$2a$")) {

@@ -76,6 +76,15 @@ const updateJobStatus = async (jobId, jobStatus) => {
     return 0;
   }
 };
+const repostJob = async (job) => {
+  const result = await jobModal.updateOne({ _id: job._id }, { $set: job });
+  console.log(result.modifiedCount);
+  if (result.modifiedCount == 1) {
+    return result.modifiedCount;
+  } else {
+    return 0;
+  }
+};
 const updateJobNotes = async (job) => {
   const result = await jobModal.updateOne({ _id: job._id }, { $set: job });
   if (result.modifiedCount == 1) {
@@ -159,4 +168,5 @@ module.exports = {
   plumberJobStats,
   updateJobNotes,
   viewAllJobsWithStatus,
+  repostJob,
 };

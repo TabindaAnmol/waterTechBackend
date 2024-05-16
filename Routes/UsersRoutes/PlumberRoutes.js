@@ -42,8 +42,7 @@ app.post(
       id: req.body._id,
       profileImage: "/Profiles/Plumbers/" + req.file.filename,
     });
-    console.log(isUpdated.modifiedCount>=1);
-    if (isUpdated) {
+    if (isUpdated.modifiedCount>=1) {
       res.send({ updated: true });
     } else {
       res.send({ updated: false });
