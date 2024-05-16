@@ -1,6 +1,7 @@
 const references = require("../../References/customReferences.js");
 const lineSchema = references.mongoose.Schema(
   {
+
     propertyId: {
       type: references.mongoose.Schema.Types.ObjectId,
       ref: "properties",
