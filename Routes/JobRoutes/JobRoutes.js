@@ -29,6 +29,7 @@ app.post("/postJob", formdata, async (req, res) => {
 app.post("/repostJob", formdata, async (req, res) => {
   console.log(req.body);
   req.body.jobStatus = "requested";
+// repost Api
   const reposted = await jobController.repostJob(req.body);
   if (reposted == 1) {
     const plumberNofication =
