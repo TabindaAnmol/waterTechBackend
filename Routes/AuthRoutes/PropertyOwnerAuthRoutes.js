@@ -7,7 +7,7 @@ const propertyOwnerController = require("../../Controllers/UserControllers/Prope
 app.post("/signup", formdata, async (req, res) => {
   console.log("//////////////////// createPropertyOwner /////////////////////");
   console.log(req.body);
-  const { name, email, password } = req.body;
+  const { name, email, password,portfolio,type } = req.body;
   const alreadyExist = await propertyOwnerController.isPropertyOwnerLoggedin({
     email: email,
   });

@@ -12,19 +12,21 @@ const plumberLogin = async (email) => {
 };
 
 const viewPlumberProfile = async (id) => {
-  const result = await plumberModal.findOne({ '_id': id });
+  const result = await plumberModal.findOne({ _id: id });
   return await result;
 };
 
 const updatePlumberProfile = async (user) => {
-  const result = await plumberModal.updateOne(user);
+  const result = await plumberModal.updateOne(
+    { _id: user._id },
+    { $set: user }
+  );
   return await result;
 };
 const viewAllPlumbers = async () => {
   const result = await plumberModal.find();
   return await result;
 };
-
 
 module.exports = {
   createPlumber,

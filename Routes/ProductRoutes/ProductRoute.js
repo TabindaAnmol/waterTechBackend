@@ -29,38 +29,37 @@ app.post(
     }
   }
 );
-// app.post(
-//   "/updateProduct",
-//   imageUpload("Products").any("ProductImage"),
-//   async (req, res) => {
-//     var ProductImage = "";
-//     console.log("files");
-//     console.log(req.files);
-//     console.log("body");
-//     console.log(req.body);
-//     if (req.files.length > 0) {
-//       ProductImage = "/Products/" + req.files[0].filename;
-//     } else {
-//       ProductImage = req.body.ProductImageForUpdate;
-//     }
-//     console.log(ProductImage);
-//     const updateProduct = await ProductsController.updateProduct({
-//       _id: req.body._id,
-//       title: req.body.title,
-//       description: req.body.description,
-//       price: Number(req.body.price),
-//       coins: Number(req.body.coins),
-//       // timeInterval: req.body.timeInterval,
-//       ProductImage: ProductImage,
-//     });
-//     console.log(updateProduct);
-//     if (updateProduct) {
-//       res.send({ update: true });
-//     } else {
-//       res.send({ update: false });
-//     }
-//   }
-// );
+app.post(
+  "/updateProduct",
+  imageUpload("Products").any("ProductImage"),
+  async (req, res) => {
+    var ProductImage = "";
+    console.log("files");
+    console.log(req.files);
+    console.log("body");
+    console.log(req.body);
+    if (req.files.length > 0) {
+      ProductImage = "/Products/" + req.files[0].filename;
+    } else {
+      ProductImage = req.body.ProductImageForUpdate;
+    }
+    console.log(ProductImage);
+    const updateProduct = await ProductsController.updateProduct({
+      _id: req.body._id,
+      title: req.body.title,
+      description: req.body.description,
+      price: req.body.price,
+      categoryId: req.body.categoryId,
+      productImage: ProductImage,
+    });
+    console.log(updateProduct);
+    if (updateProduct) {
+      res.send({ update: true });
+    } else {
+      res.send({ update: false });
+    }
+  }
+);
 // app.post("/deleteProduct", formdata, async (req, res) => {
 //   console.log(JSON.parse(req.body.Product)._id);
 //   const viewOrdersAgainstThisProduct =
@@ -96,7 +95,7 @@ app.post(
 // });
 app.get("/viewAllProducts", formdata, async (req, res) => {
   const page = parseInt(req.query.page);
-  const pageLimit = 4;
+  const pageLimit = 10;
   const allProducts = await ProductsController.viewAllProducts(page, pageLimit);
   const totalPages = Math.ceil(allProducts.count / pageLimit);
   if (allProducts.result.length > 0) {

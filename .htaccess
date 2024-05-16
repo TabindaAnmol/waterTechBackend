@@ -1,0 +1,7 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/allemzst/wslive.alleimran.com"
+PassengerBaseURI "/"
+PassengerNodejs "/home/allemzst/nodevenv/wslive.alleimran.com/20/bin/node"
+PassengerAppType node
+PassengerStartupFile index.js
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
