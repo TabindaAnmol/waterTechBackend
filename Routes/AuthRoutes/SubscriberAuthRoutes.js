@@ -2,13 +2,15 @@ const references = require("../../References/customReferences");
 const app = references.express();
 const formdata = references.formdata.none();
 app.use(references.cors());
-const subscriberController = require("../../Controllers/SubscriberControllers/SubscriberController");
+const subscriberController = require("../../Controllers/UserControllers/SubscriberController");
 const certificateUpload = require("../../Middlewares/certificateUpload");
+const { json } = require("express");
 
 app.post("/signup", formdata, async (req, res) => {
   console.log("//////////////////// createSubscriber /////////////////////");
   console.log(req.body);
   const { name, email, phoneNumber, portfolio, message } = req.body;
+  req.body.portfolio=JSON.parse(req.body.portfolio)
   const alreadyExist = await subscriberController.isSubscriberLoggedin({
     email: email,
   });

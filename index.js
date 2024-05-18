@@ -18,6 +18,7 @@ const paymentRoute=require('./Routes/PaymentRoutes/PaymentRoute')
 const notificationRoutes=require('./Routes/NotificationRoutes/NotificationRoutes')
 const employeeAuthRoutes=require('./Routes/AuthRoutes/EmployeeAuthRoutes')
 const subscriberAuthRoutes=require('./Routes/AuthRoutes/SubscriberAuthRoutes')
+const employeeRoutes=require('./Routes/UsersRoutes/EmployeeRoutes')
 
 express.use(references.express.static(root + "/Public/Assets/Images"));
 express.use(references.express.static(root + "/Public/Assets/Pdfs"));
@@ -30,11 +31,14 @@ express.use("/EmployeesCVs", references.express.static("EmployeesCVs"));
 
 express.use('/propertyOwner/auth',propertyOwnerAuthRoutes);
 express.use('/plumber/auth',plumberAuthRoutes);
+express.use('/auth/subscriber',subscriberAuthRoutes);
+express.use('/auth/employee',employeeAuthRoutes);
 express.use('/admin/auth',adminAuthRoutes);
+
 express.use('/propertyOwner',propertyOwnerRoutes);
 express.use('/plumber',plumberRoutes);
-express.use('/employee',employeeAuthRoutes);
-express.use('/subscriber',subscriberAuthRoutes);
+express.use('/employee',employeeRoutes);
+
 
 express.use('/categories',categoryRoute);
 express.use('/products',productRoute);

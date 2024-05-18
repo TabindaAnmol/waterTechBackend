@@ -2,7 +2,7 @@ const references = require("../../References/customReferences");
 const app = references.express();
 const formdata = references.formdata.none();
 app.use(references.cors());
-const employeeController = require("../../Controllers/EmployeeControllers/EmployeeController");
+const employeeController = require("../../Controllers/UserControllers/EmployeeController");
 const certificateUpload = require("../../Middlewares/certificateUpload");
 
 app.post(

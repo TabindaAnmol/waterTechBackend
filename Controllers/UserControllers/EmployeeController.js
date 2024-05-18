@@ -11,8 +11,12 @@ const isEmployeeLoggedin = async (user) => {
   const employee = await employeeModal.findOne(user);
   return employee;
 };
-
+const viewAllEmployeesWithStatus = async (status) => {
+  const result = await employeeModal.find({ status: status });
+  return await result;
+};
 module.exports = {
   createEmployee,
   isEmployeeLoggedin,
+  viewAllEmployeesWithStatus,
 };
