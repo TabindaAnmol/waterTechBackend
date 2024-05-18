@@ -13,7 +13,7 @@ app.use(references.cors());
 app.post("/updateProfile", formdata, async (req, res) => {
   console.log("/////////////////////");
   console.log(req.body);
-  const isUpdated = await propertyOwnerController.updatePropertyOwnerProfile(
+  const isUpdated = await employeeController.updatePropertyOwnerProfile(
     req.body
   );
   console.log(isUpdated);
