@@ -40,33 +40,34 @@ app.post("/viewPlumberOrders", formdata, async (req, res) => {
     res.send({ plumberOrders: [] });
   }
 });
-
 app.post("/viewSingleOrderDetail", formdata, async (req, res) => {
   const { orderId } = req.body;
   console.log(req.body);
-  const orderDetail = await orderController.viewSingleOrderDetail(
-    orderId,
-  );
+  const orderDetail = await orderController.viewSingleOrderDetail(orderId);
   if (orderDetail) {
     res.send({ orderDetail: orderDetail });
   } else {
     res.send({ orderDetail: {} });
   }
 });
-
-//   app.post("/updateCartItemQuantity", formdata, async (req, res) => {
-//     const { _id,quantity,product } = req.body;
-//     const updateItem = await orderController.updateCartItem({
-//       _id:_id,
-//       quantity:quantity,
-//       totalPrice:JSON.parse(product).productId.price*quantity
-//     });
-//     console.log(updateItem)
-//     if (updateItem.modifiedCount>0) {
-//       res.send({ updated: true });
-//     } else {
-//       res.send({ updated: false });
-//     }
-//   });
+app.post("/viewAllOrdersWithStatus", formdata, async (req, res) => {
+  const { status } = req.body;
+  console.log(req.body);
+  const orders = await orderController.viewAllOrdersWithStatus(status);
+  if (orders.length > 0) {
+    res.send({ orders: orders });
+  } else {
+    res.send({ orders: [] });
+  }
+});
+app.post("/updateOrder", formdata, async (req, res) => {
+  console.log(req.body);
+  const isUpdated = await orderController.updateOrder(req.body);
+  if (isUpdated.modifiedCount >= 1) {
+    res.send({ updated: true });
+  } else {
+    res.send({ updated: false });
+  }
+});
 
 module.exports = app;
