@@ -20,12 +20,16 @@ const updatePlumberProfile = async (user) => {
   const result = await plumberModal.updateOne({ _id: user.id }, { $set: user });
   return await result;
 };
-const viewAllPlumbers = async () => {
-  const result = await plumberModal.find();
-  return await result;
-};
 const viewAllPlumbersWithStatus = async (status) => {
   const result = await plumberModal.find({ status: status });
+  return await result;
+};
+const viewAllPlumbers = async () => {
+  const result = await plumberModal.find({'status':1});
+  return await result;
+};
+const activePlumbers = async () => {
+  const result = await plumberModal.find({'status':1}).count();
   return await result;
 };
 
@@ -34,6 +38,7 @@ module.exports = {
   plumberLogin,
   viewPlumberProfile,
   updatePlumberProfile,
-  viewAllPlumbers,
   viewAllPlumbersWithStatus,
+  viewAllPlumbers,
+  activePlumbers
 };

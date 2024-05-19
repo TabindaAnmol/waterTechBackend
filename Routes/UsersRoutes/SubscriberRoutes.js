@@ -6,6 +6,7 @@ const jobController = require("../../Controllers/JobControllers/JobController");
 const propertyController = require("../../Controllers/PropertyControllers/PropertyController");
 const lineController = require("../../Controllers/LineControllers/LineController");
 const employeeController = require("../../Controllers/UserControllers/EmployeeController");
+const subscriberController = require("../../Controllers/UserControllers/SubscriberController");
 const profileImageUpload = require("../../Middlewares/profileImageUpload");
 app.use(references.cors());
 
@@ -13,7 +14,7 @@ app.use(references.cors());
 app.post("/updateProfile", formdata, async (req, res) => {
   console.log("/////////////////////");
   console.log(req.body);
-  const isUpdated = await employeeController.updateEmployeeProfile(
+  const isUpdated = await subscriberController.updateSubscriberProfile(
     req.body
   );
   console.log(isUpdated);
@@ -23,17 +24,17 @@ app.post("/updateProfile", formdata, async (req, res) => {
     res.send({ updated: false });
   }
 });
-app.post("/viewAllEmployeesWithStatus", formdata, async (req, res) => {
+app.post("/viewAllSubscribersWithStatus", formdata, async (req, res) => {
   const { status } = req.body;
   console.log("//////////////////////////////////");
-  const employees =
-    await employeeController.viewAllEmployeesWithStatus(status);
-  console.log("/////////employees/////////");
-  console.log(employees);
-  if (employees.length > 0) {
-    res.send({ employees: employees });
+  const subscribers =
+    await subscriberController.viewAllSubscriberWithStatus(status);
+  console.log("/////////subscribers/////////");
+  console.log(subscribers);
+  if (subscribers.length > 0) {
+    res.send({ subscribers: subscribers });
   } else {
-    res.send({ employees: [] });
+    res.send({ subscribers: [] });
   }
 });
 

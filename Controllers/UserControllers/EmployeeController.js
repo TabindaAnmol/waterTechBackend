@@ -25,9 +25,14 @@ const updateEmployeeProfile = async (updatedUser) => {
   console.log(result.modifiedCount);
   return result.modifiedCount;
 };
+const activeEmployees = async () => {
+  const result = await employeeModal.find({'status':1}).count();
+  return await result;
+};
 module.exports = {
   createEmployee,
   isEmployeeLoggedin,
-  viewAllEmployeesWithStatus,
   updateEmployeeProfile,
+  viewAllEmployeesWithStatus,
+  activeEmployees,
 };
