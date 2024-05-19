@@ -17,7 +17,7 @@ app.post("/viewProfile", formdata, async (req, res) => {
   }
 });
 app.post("/updateProfile", formdata, async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   const isUpdated = await plumberController.updatePlumberProfile(req.body);
   console.log(isUpdated);
   if (isUpdated.modifiedCount >= 1) {
@@ -42,7 +42,7 @@ app.post(
       id: req.body._id,
       profileImage: "/Profiles/Plumbers/" + req.file.filename,
     });
-    if (isUpdated.modifiedCount>=1) {
+    if (isUpdated.modifiedCount >= 1) {
       res.send({ updated: true });
     } else {
       res.send({ updated: false });
@@ -52,12 +52,24 @@ app.post(
 app.get("/viewAllPlumbers", formdata, async (req, res) => {
   console.log("//////////////////////////////////");
   const plumbers = await plumberController.viewAllPlumbers();
-  console.log('/////////plumbers/////////')
-  console.log(plumbers)
-  if (plumbers.length>0) {
+  console.log("/////////plumbers/////////");
+  console.log(plumbers);
+  if (plumbers.length > 0) {
     res.send({ plumbers: plumbers });
   } else {
-    res.send({plumbers: []  });
+    res.send({ plumbers: [] });
+  }
+});
+app.post("/viewAllPlumbersWithStatus", formdata, async (req, res) => {
+  const { status } = req.body;
+  console.log("//////////////////////////////////");
+  const plumbers = await plumberController.viewAllPlumbersWithStatus(status);
+  console.log("/////////plumbers/////////");
+  console.log(plumbers);
+  if (plumbers.length > 0) {
+    res.send({ plumbers: plumbers });
+  } else {
+    res.send({ plumbers: [] });
   }
 });
 

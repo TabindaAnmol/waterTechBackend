@@ -5,13 +5,11 @@ const createNewOrder = async (newOrder) => {
   const result = await orderModal.create(newOrder);
   return result;
 };
-
-const updateCartItem = async (cart) => {
-  const result = await orderModal.updateOne({ _id: cart._id }, { $set: cart });
-  return result;
-};
-const viewAllCartItems = async () => {
-  const result = await orderModal.find();
+const updateOrder = async (order) => {
+  const result = await orderModal.updateOne(
+    { _id: order._id },
+    { $set: order }
+  );
   return result;
 };
 const viewSingleOrderDetail = async (orderId) => {
@@ -51,11 +49,29 @@ const viewPlumberOrders = async (plumberId, status) => {
 
   return result;
 };
+const viewAllOrdersWithStatus = async (status) => {
+  const result = await orderModal
+    .find({
+      status: status,
+    })
+    .populate([
+      {
+        path: "cartItems",
+        populate: {
+          path: "productId",
+          populate: { path: "categoryId" },
+        },
+      },
+      { path: "plumberId" },
+    ]);
+
+  return result;
+};
 
 module.exports = {
   createNewOrder: createNewOrder,
-  viewAllCartItems: viewAllCartItems,
-  updateCartItem: updateCartItem,
+  updateOrder: updateOrder,
   viewPlumberOrders: viewPlumberOrders,
-  viewSingleOrderDetail:viewSingleOrderDetail,
+  viewSingleOrderDetail: viewSingleOrderDetail,
+  viewAllOrdersWithStatus: viewAllOrdersWithStatus,
 };
