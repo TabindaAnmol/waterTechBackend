@@ -33,10 +33,15 @@ const viewAllPropertyOwnerWithStatus = async (status) => {
   const result = await propertyOwnerModal.find({ status: status });
   return await result;
 };
+const activePropertyOwners = async () => {
+  const result = await propertyOwnerModal.find({'status':1}).count();
+  return await result;
+};
 module.exports = {
   createPropertyOwner,
   isPropertyOwnerLoggedin,
   viewPropertyOwnerProfile,
   updatePropertyOwnerProfile,
   viewAllPropertyOwnerWithStatus,
+  activePropertyOwners,
 };
