@@ -20,6 +20,7 @@ const plumberSchema = references.mongoose.Schema(
     profileImage: { type: String, default: null },
     countiesCovered: { type: Number, default: null },
     referalName: { type: String, default: null },
+    licences: { type: String, default: null },
     // "fcmToken":{type:String,default:null},
     // "walletBalance":{type:Number,default:0},
   },

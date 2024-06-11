@@ -84,6 +84,13 @@ const updatePropertiesStatus = async (property) => {
   console.log(result);
   return result;
 };
+const viewSearchedPropertiesForPropertyOwner = async (item) => {
+  return await propertyModal.find({
+    propertyOwnerId: item.propertyOwnerId,
+    status: item.status,
+    $or: [{ address: { $regex: item.searchValue, $options: "i" } }],
+  });
+};
 
 module.exports = {
   addProperty,
@@ -95,4 +102,5 @@ module.exports = {
   updatePropertiesStatus,
   viewPropertiesWithNewLine,
   viewPropertiesWithSolutionLine,
+  viewSearchedPropertiesForPropertyOwner,
 };

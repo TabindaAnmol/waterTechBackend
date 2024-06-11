@@ -2,39 +2,42 @@ const references = require("../../References/customReferences");
 const app = references.express();
 const formdata = references.formdata.none();
 const plumberController = require("../../Controllers/UserControllers/PlumberController");
+const certificateUpload = require("../../Middlewares/certificateUpload");
 app.use(references.cors());
 
+app.post(
+  "/signup",
+  certificateUpload("PlumberLicences").single("licences"),
+  async (req, res) => {
+    console.log("/////////////////////////////");
+    console.log(req.body);
+    console.log("/////////////////////////////");
 
-app.post("/signup", formdata, async (req, res) => {
-  console.log('/////////////////////////////')
-  console.log(req.body)
-  console.log('/////////////////////////////')
-
-  const alreadyExist = await plumberController.plumberLogin(req.body.email);
-  console.log(alreadyExist);
-  if (
-    alreadyExist &&
-    typeof alreadyExist === "object" &&
-    Object.keys(alreadyExist).length > 0
-  ) {
-    return res.status(429).send({ error: "This Email Id Already exist" });
-  } else {
-    const plumber = await plumberController.createPlumber(req.body);
-    if (plumber) {
-      res.send({ plumber: plumber, save: true });
+    const alreadyExist = await plumberController.plumberLogin(req.body.email);
+    console.log(alreadyExist);
+    if (
+      alreadyExist &&
+      typeof alreadyExist === "object" &&
+      Object.keys(alreadyExist).length > 0
+    ) {
+      return res.status(429).send({ error: "This Email Id Already exist" });
     } else {
-      res.send({ save: false });
+      req.body.licences = "/PlumberLicences/" + req.file.filename;
+      const plumber = await plumberController.createPlumber(req.body);
+      if (plumber) {
+        res.send({ plumber: plumber, save: true });
+      } else {
+        res.send({ save: false });
+      }
     }
   }
-});
+);
 
 app.post("/login", formdata, async (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body)
-  const plumber = await plumberController.plumberLogin(
-    email
-  );
-  console.log(plumber)
+  console.log(req.body);
+  const plumber = await plumberController.plumberLogin(email);
+  console.log(plumber);
   if (plumber) {
     var isPasswordMatch;
     if (password.startsWith("$2a$")) {
