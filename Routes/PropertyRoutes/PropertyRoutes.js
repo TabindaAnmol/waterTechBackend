@@ -132,5 +132,24 @@ app.get("/viewPropertiesWithSolutionLine", formdata, async (req, res) => {
     res.send({ match: false, properties: [] });
   }
 });
+app.post(
+  "/viewSearchedPropertiesForPropertyOwner",
+  formdata,
+  async (req, res) => {
+    const { searchValue, propertyOwnerId ,status} = req.body;
+    console.log(searchValue, propertyOwnerId);
+    const searchProperties = await propertyController.viewSearchedPropertiesForPropertyOwner({
+      searchValue: searchValue,
+      propertyOwnerId: propertyOwnerId,
+      status:status
+    });
+    console.log(searchProperties);
+    if (searchProperties.length > 0) {
+      res.send({ searchProperties: searchProperties });
+    } else {
+      res.send({ searchProperties: [] });
+    }
+  }
+);
 
 module.exports = app;

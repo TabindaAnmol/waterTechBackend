@@ -30,6 +30,7 @@ express.use("/Categories", references.express.static("Categories"));
 express.use("/Products", references.express.static("Products"));
 express.use("/PropertiesCertificates", references.express.static("PropertiesCertificates"));
 express.use("/EmployeesCVs", references.express.static("EmployeesCVs"));
+express.use("/PlumberLicences", references.express.static("PlumberLicences"));
 
 express.use('/propertyOwner/auth',propertyOwnerAuthRoutes);
 express.use('/plumber/auth',plumberAuthRoutes);
