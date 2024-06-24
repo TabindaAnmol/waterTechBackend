@@ -95,11 +95,15 @@ app.post(
 // });
 app.get("/viewAllProducts", formdata, async (req, res) => {
   const page = parseInt(req.query.page);
-  const pageLimit = 4;
+  const pageLimit = 10;
   const allProducts = await ProductsController.viewAllProducts(page, pageLimit);
   const totalPages = Math.ceil(allProducts.count / pageLimit);
   if (allProducts.result.length > 0) {
-    res.send({ allProducts: allProducts.result, totalPages: totalPages });
+    res.send({
+      allProducts: allProducts.result,
+      totalPages: totalPages,
+      pageLimit: pageLimit,
+    });
   } else {
     res.send({ allProducts: [] });
   }
