@@ -18,9 +18,11 @@ const paymentRoute=require('./Routes/PaymentRoutes/PaymentRoute')
 const notificationRoutes=require('./Routes/NotificationRoutes/NotificationRoutes')
 const employeeAuthRoutes=require('./Routes/AuthRoutes/EmployeeAuthRoutes')
 const subscriberAuthRoutes=require('./Routes/AuthRoutes/SubscriberAuthRoutes')
+const customQuoteAuthRoutes=require('./Routes/AuthRoutes/CustomQuoteAuthRoutes')
 const employeeRoutes=require('./Routes/UsersRoutes/EmployeeRoutes')
 const subscriberRoutes=require('./Routes/UsersRoutes/SubscriberRoutes')
 const adminRoutes=require('./Routes/UsersRoutes/AdminRoutes')
+const customQuotesRoute=require('./Routes/CustomQuotesRoutes/CustomQuotesRoute')
 
 express.use(references.express.static(root + "/Public/Assets/Images"));
 express.use(references.express.static(root + "/Public/Assets/Pdfs"));
@@ -32,17 +34,19 @@ express.use("/PropertiesCertificates", references.express.static("PropertiesCert
 express.use("/EmployeesCVs", references.express.static("EmployeesCVs"));
 express.use("/PlumberLicences", references.express.static("PlumberLicences"));
 
+express.use('/admin/auth',adminAuthRoutes);
 express.use('/propertyOwner/auth',propertyOwnerAuthRoutes);
 express.use('/plumber/auth',plumberAuthRoutes);
 express.use('/auth/subscriber',subscriberAuthRoutes);
 express.use('/auth/employee',employeeAuthRoutes);
-express.use('/admin/auth',adminAuthRoutes);
+express.use('/auth/customquote',customQuoteAuthRoutes);
 
+express.use('/admin',adminRoutes);
 express.use('/propertyOwner',propertyOwnerRoutes);
 express.use('/plumber',plumberRoutes);
 express.use('/employee',employeeRoutes);
 express.use('/subscriber',subscriberRoutes);
-express.use('/admin',adminRoutes);
+express.use('/customquotes',customQuotesRoute);
 
 
 express.use('/properties',propertyRoutes);
