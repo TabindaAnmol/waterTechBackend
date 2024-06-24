@@ -25,12 +25,18 @@ const viewAllPlumbersWithStatus = async (status) => {
   return await result;
 };
 const viewAllPlumbers = async () => {
-  const result = await plumberModal.find({'status':1});
+  const result = await plumberModal.find({ status: 1 });
   return await result;
 };
 const activePlumbers = async () => {
-  const result = await plumberModal.find({'status':1}).count();
+  const result = await plumberModal.find({ status: 1 }).count();
   return await result;
+};
+const viewSearchedPlumber = async (item) => {
+  return await plumberModal.find({
+    status: 1,
+    $or: [{ name: { $regex: item.searchValue, $options: "i" } }],
+  });
 };
 
 module.exports = {
@@ -40,5 +46,6 @@ module.exports = {
   updatePlumberProfile,
   viewAllPlumbersWithStatus,
   viewAllPlumbers,
-  activePlumbers
+  activePlumbers,
+  viewSearchedPlumber,
 };

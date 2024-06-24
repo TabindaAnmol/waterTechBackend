@@ -72,5 +72,22 @@ app.post("/viewAllPlumbersWithStatus", formdata, async (req, res) => {
     res.send({ plumbers: [] });
   }
 });
+app.post(
+  "/viewSearchedPlumbers",
+  formdata,
+  async (req, res) => {
+    const {searchValue} = req.body;
+    console.log(searchValue);
+    const searchPlumbers = await plumberController.viewSearchedPlumber({
+      searchValue: searchValue,
+    });
+    console.log(searchPlumbers);
+    if (searchPlumbers.length > 0) {
+      res.send({ searchPlumbers: searchPlumbers });
+    } else {
+      res.send({ searchPlumbers: [] });
+    }
+  }
+);
 
 module.exports = app;
