@@ -23,6 +23,7 @@ const employeeRoutes=require('./Routes/UsersRoutes/EmployeeRoutes')
 const subscriberRoutes=require('./Routes/UsersRoutes/SubscriberRoutes')
 const adminRoutes=require('./Routes/UsersRoutes/AdminRoutes')
 const customQuotesRoute=require('./Routes/CustomQuotesRoutes/CustomQuotesRoute')
+const blogRoutes=require('./Routes/BlogsRoutes/BlogsRoute')
 
 express.use(references.express.static(root + "/Public/Assets/Images"));
 express.use(references.express.static(root + "/Public/Assets/Pdfs"));
@@ -33,6 +34,7 @@ express.use("/Products", references.express.static("Products"));
 express.use("/PropertiesCertificates", references.express.static("PropertiesCertificates"));
 express.use("/EmployeesCVs", references.express.static("EmployeesCVs"));
 express.use("/PlumberLicences", references.express.static("PlumberLicences"));
+express.use("/Blogs", references.express.static("Blogs"));
 
 express.use('/admin/auth',adminAuthRoutes);
 express.use('/propertyOwner/auth',propertyOwnerAuthRoutes);
@@ -59,6 +61,8 @@ express.use('/products',productRoute);
 express.use('/cart',cartRoute);
 express.use('/orders',orderRoute);
 express.use('/payment',paymentRoute);
+
+express.use('/blogs',blogRoutes);
 
 express.listen(8000);
 // placeholder if run in browser
