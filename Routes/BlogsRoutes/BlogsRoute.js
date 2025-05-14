@@ -25,35 +25,6 @@ app.post(
     }
   }
 );
-// app.post(
-//   "/updateCategory",
-//   imageUpload("Categories").any("categoryImage"),
-//   async (req, res) => {
-//     console.log(req.files);
-//     // let imageParts=req.body.categoryImage.split('/');
-//     // let image=`/${imageParts[1]}/${imageParts[2]}`
-//     let obj = {};
-//     if (req.files.length > 0) {
-//       obj = {
-//         _id: req.body.categoryId,
-//         title: req.body.title,
-//         categoryImage: (image = "/Categories/" + req.files[0].filename),
-//       };
-//     } else {
-//       obj = {
-//         _id: req.body.categoryId,
-//         title: req.body.title,
-//       };
-//     }
-//     console.log(req.body);
-//     const updateCategory = await categoriesController.updateCategories(obj);
-//     if (updateCategory.modifiedCount == 1) {
-//       res.send({ update: true });
-//     } else {
-//       res.send({ update: false });
-//     }
-//   }
-// );
 app.get("/viewAllBlogs", formdata, async (req, res) => {
   const allBlogs = await blogsController.viewAllBlogs();
   console.log(allBlogs);
@@ -63,6 +34,51 @@ app.get("/viewAllBlogs", formdata, async (req, res) => {
     res.send({ allBlogs: [] });
   }
 });
+app.get("/viewSingleBlogDetail/:slug", formdata, async (req, res) => {
+  const slug = req.params.slug;
+  console.log("////////////////////////")
+  console.log(slug)
+    console.log("/////////////////////");
+  const singleBlog = await blogsController.viewSingleBlogDetail(slug);
+  if (singleBlog) {
+    console.log(singleBlog);
+    res.send({ match: true, singleBlog: singleBlog });
+  } else {
+    res.send({ match: false });
+  }
+});
+// app.post(
+//   "/updateBlog",
+//   imageUpload("Blogs").single("blogImage"),
+//   async (req, res) => {
+//     console.log(req.files);
+
+//     let obj = {};
+//     if (req.files.length > 0) {
+//       obj = {
+//         _id: req.body._id,
+//         title: req.body.title,
+//         description: req.body.description,
+//         keywords: req.body.keywords,
+//         blogImage: "/Blogs/" + req.files[0].filename,
+//       };
+//     } else {
+//       obj = {
+//         _id: req.body._id,
+//         title: req.body.title,
+//         description: req.body.description,
+//         keywords: req.body.keywords,
+//       };
+//     }
+//     console.log(req.body);
+//     const updateBlog = await blogsController.updateBlog(obj);
+//     if (updateBlog.modifiedCount == 1) {
+//       res.send({ update: true });
+//     } else {
+//       res.send({ update: false });
+//     }
+//   }
+// );
 // app.post("/deleteCategory", formdata, async (req, res) => {
 //   // var counter=0
 // //   console.log(req.body)
@@ -89,7 +105,6 @@ app.get("/viewAllBlogs", formdata, async (req, res) => {
 // //     res.send({ update: false ,message: 'Something went wrong'})
 // //   }
 // //   }
-
 
 // const delCategory = await categoriesController.deleteCategories(req.body);
 // console.log(delCategory);
