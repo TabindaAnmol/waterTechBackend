@@ -10,19 +10,24 @@ const createBlog= async (blog) => {
   const result=await blogModel.create(blog)
   return result;
 };
-// const deleteCategories= async (delId) => {
+const viewSingleBlogDetail = async (slug) => {
+  const result = await blogModel
+    .findOne({ slug: slug})
+  return result;
+};
+const updateBlog= async (blog) => {
+  const result=await blogModel.updateOne({_id:_id},{$set:blog})
+  return result;
+};
+// const deleteBlog= async (delId) => {
 //   const result=await blogModel.deleteOne(delId)
 //   return result;
 // };
-// const updateCategories= async (category) => {
-//   const result=await blogModel.updateOne({_id:category._id},{$set:category})
-//   return result;
-// };
-
 
 module.exports = {
   viewAllBlogs:viewAllBlogs,
   createBlog:createBlog,
-  // deleteCategories:deleteCategories,
-  // updateCategories:updateCategories,
+  viewSingleBlogDetail:viewSingleBlogDetail,
+  updateBlog:updateBlog,
+
 };
